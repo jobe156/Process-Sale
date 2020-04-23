@@ -13,7 +13,7 @@ import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
 import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
 import se.kth.iv1350.processSale.util.Amount;
 
-//asdasd
+
 
 class ControllerTest {
 	private Printer printer;
