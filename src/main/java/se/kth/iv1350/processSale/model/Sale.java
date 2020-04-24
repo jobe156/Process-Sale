@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.processSale.integration.ItemDTO;
-import se.kth.iv1350.processSale.integration.Discount;
-import se.kth.iv1350.processSale.integration.DiscountRepositoryHandler;
-import se.kth.iv1350.processSale.integration.DiscountFactors;
 import se.kth.iv1350.processSale.util.Amount;
 
 /**
@@ -20,7 +17,6 @@ public class Sale {
 	private LocalTime localTime;
 	private String storeAdress;
 	private List<Item> items = new ArrayList<>();
-	// private List<Discount> discounts = new ArrayList<>();
 
 	/**
 	 * starts an instance of a sale which sets the time and date.
@@ -59,15 +55,6 @@ public class Sale {
 		items.add(item);
 	}
 
-	
-	/*
-	 * private boolean isItemInSale(ItemDTO itemDTO) { for(Item item: items)
-	 * if(item.getItemName().equals(itemDTO.getItemName())) return true;
-	 * 
-	 * return false; }
-	 */
-	
-
 	/**
 	 * Calculates the final price of the sale.
 	 * 
@@ -82,40 +69,11 @@ public class Sale {
 				totalPrice.add(item.totalItemPrice());
 				totalVatRate += item.getItemVat();
 			}
-
 			totalPrice.multiply(totalVatRate);
-			/*
-			for (Discount disc : discounts)
-				disc.applyDiscount(totalPrice);
-				*/
 		}
 		return totalPrice;
 	}
-	
-	/**
-	 * Checks to see if any discounts can be applied to the {@link Sale}.
-	 * 
-	 * @param DRHandler Used to finds discounts in some external system.
-	 * @param CustomerID Used to identify if the customer is eligible for a discount
-	 * 
-	 */
-	
-	/*
-	public void LookForDiscounts(DiscountRepositoryHandler DRHandler, CustomerIdentificationDTO customerID) {
-		if(customerID != null && DRHandler != null && customerID.getDiscountEligibility()) {
-			Discount searchedDiscount; 
-			DiscountFactors discountFactors = new DiscountFactors(this, null);
-			for(Item item: items) {
-				discountFactors.setItemName(item.getItemName());
-				searchedDiscount = DRHandler.findDiscount(discountFactors);
-			
-				if(searchedDiscount != null)
-					discounts.add(searchedDiscount);
-			}
-		}
-	}
-	*/
-	
+
 	/**
 	 * 
 	 * gets the sum of the quantities of all items.
@@ -128,5 +86,14 @@ public class Sale {
 			totalNumberOfItems += item.getQuantity();
 		
 		return totalNumberOfItems;
+	}
+	
+	public LocalTime getTimeOfSale() {
+		return localTime;
+	}
+	
+	public String getStoreAdress() {
+		String storeAdressCopy = new String(storeAdress);
+		return storeAdressCopy;
 	}
 }

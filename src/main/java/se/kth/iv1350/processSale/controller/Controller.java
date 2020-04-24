@@ -1,17 +1,20 @@
 package se.kth.iv1350.processSale.controller;
 
-import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.AccountingSystemHandler;
-import se.kth.iv1350.processSale.integration.DiscountRepositoryHandler;
-import se.kth.iv1350.processSale.integration.RegistryCreator;
+import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.ItemDTO;
+
+import se.kth.iv1350.processSale.integration.RegistryCreator;
 import se.kth.iv1350.processSale.model.CashRegister;
+import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
+import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
-import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
-import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
-import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
+import se.kth.iv1350.processSale.model.CashPayment;
+import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.util.ItemIdentifier;
+
+
 
 /**
  * 
@@ -21,7 +24,6 @@ import se.kth.iv1350.processSale.util.ItemIdentifier;
 public class Controller {
 	private InventorySystemHandler ISHandler;
 	private AccountingSystemHandler ASHandler;
-	//private DiscountRepositoryHandler DRHandler;
 	private CashRegister cashRegister;
 	private Sale currentSale;
 	private SaleInformationProvider SIProvider;
@@ -37,7 +39,6 @@ public class Controller {
 		RegistryCreator registryCreator = new RegistryCreator();
 		ISHandler = registryCreator.getInventorySystemHandler();
 		ASHandler = registryCreator.getAccountingSystemHandler();
-		//DRHandler = registryCreator.getDiscountRepositoryHandler();
 		cashRegister = new CashRegister();
 		this.SIProvider = SIProvider;
 	}
@@ -65,29 +66,9 @@ public class Controller {
 		return itmRegDTO;
 	}
 	
-	/**
-	 * Is used to add discounts to a <code>Sale</code>.
-	 * 
-	 * @param customerID	Is required to apply disocunts to a sale.
-	 * @return				Information about the current totalPrice after discounts have been applied.
-	 */
-	
-	
-	/*
-	
-	public DisplayTransactionDTO DiscountRequest(CustomerIdentificationDTO customerID) {
-		currentSale.LookForDiscounts(DRHandler, customerID);
-		
-		DisplayTransactionDTO dispTraDTO = new DisplayTransactionDTO(currentSale);
-		return dispTraDTO;
+	public DisplayTransactionDTO processCashPayment(Amount paidAmount) {
+		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister);
+		SaleLogDTO sLog = cashPayment.ProcessPayment(currentSale);
+		return null;
 	}
-	
-	public DiscountRepositoryHandler getDiscountRepositoryHandler () {
-		return DRHandler;
-	}
-	
-	*/
-	
-	
-	
 }

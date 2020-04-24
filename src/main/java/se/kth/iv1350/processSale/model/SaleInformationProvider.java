@@ -2,9 +2,13 @@ package se.kth.iv1350.processSale.model;
 
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.Printer;
+import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
+import se.kth.iv1350.processSale.model.Receipt;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.util.Amount;
+
+
 
 /**
  * 
@@ -49,11 +53,18 @@ public class SaleInformationProvider {
 	 * @param sale		Provides the infromation for the <code>DisplayTransactionDTO</code>.
 	 * @return			shows the total price after discount and vatrate has been applied.
 	 */
-	
-	/*
 	public DisplayTransactionDTO generateDisplayTransactionDTO (Sale sale) {
 		DisplayTransactionDTO disTraDto = new DisplayTransactionDTO(sale);
 		return disTraDto;
 	}
-	*/
+	
+	public DisplayTransactionDTO generateDisplayTransactionDTO (SaleLogDTO saleLog) {
+		DisplayTransactionDTO disTraDto = new DisplayTransactionDTO(saleLog);
+		return disTraDto;
+	}
+	
+	public void printReceipt(SaleLogDTO saleLog) {
+		Receipt receipt = new Receipt( saleLog);
+		printer.printReceipt(receipt);
+	}	
 }

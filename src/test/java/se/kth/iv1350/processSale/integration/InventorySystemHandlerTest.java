@@ -22,7 +22,6 @@ class InventorySystemHandlerTest {
 
 	@Test
 	public void testNullArgument() {
-		ISHandler.addItems();
 		ItemIdentifier nullItemID = null;
 		ItemDTO result = ISHandler.findItem(nullItemID);
 		assertNull(result, "null ItemIdentifier argument returns a itemDTO");

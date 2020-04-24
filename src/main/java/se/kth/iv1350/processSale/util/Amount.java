@@ -85,6 +85,14 @@ public class Amount {
 		}
 	}
 	
+	public void subtract(Amount amount) {
+		if(amount != null ) {
+			currentAmount -= amount.currentAmount;
+			if(currentAmount < 0 ) 
+				currentAmount = 0;
+		}
+	}
+	
 	
 	
 	/**
@@ -98,4 +106,8 @@ public class Amount {
 	}
 	
 	//correspondingAmount
+	
+	public String toStirng() {
+		return String.valueOf(currentAmount);
+	}
 }

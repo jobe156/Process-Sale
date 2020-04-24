@@ -1,6 +1,7 @@
 package se.kth.iv1350.processSale.model;
 
 import se.kth.iv1350.processSale.util.Amount;
+import se.kth.iv1350.processSale.integration.SaleLogDTO;
 
 public class DisplayTransactionDTO {
 	private Amount totalPrice;
@@ -9,6 +10,12 @@ public class DisplayTransactionDTO {
 	
 	public DisplayTransactionDTO(Sale sale){
 		totalPrice = sale.CalculateFinalPrice();
+	}
+	
+	public DisplayTransactionDTO(SaleLogDTO saleLog) {
+		this.totalPrice = saleLog.getTotalPrice();
+		this.amountPaid = saleLog.getPaidAmount();
+		this.change = saleLog.getChange();
 	}
 	
 	public Amount getTotalPrice() {

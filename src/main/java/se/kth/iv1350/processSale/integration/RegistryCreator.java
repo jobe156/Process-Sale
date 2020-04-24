@@ -9,7 +9,6 @@ package se.kth.iv1350.processSale.integration;
 public class RegistryCreator {
 	private InventorySystemHandler ISHandler;
 	private AccountingSystemHandler ASHandler;
-	private DiscountRepositoryHandler DRHandler;
 	
 	/**
 	 * 
@@ -19,7 +18,6 @@ public class RegistryCreator {
 	public RegistryCreator() {
 		this.ISHandler = new InventorySystemHandler();
 		this.ASHandler = new AccountingSystemHandler();
-		this.DRHandler = new DiscountRepositoryHandler();
 	}
 
 	public InventorySystemHandler getInventorySystemHandler() {
@@ -28,9 +26,5 @@ public class RegistryCreator {
 	
 	public AccountingSystemHandler getAccountingSystemHandler() {
 		return this.ASHandler;
-	}
-	
-	public DiscountRepositoryHandler getDiscountRepositoryHandler() {
-		return this.DRHandler;
 	}
 }

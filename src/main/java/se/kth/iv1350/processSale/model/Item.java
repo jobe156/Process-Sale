@@ -2,6 +2,8 @@ package se.kth.iv1350.processSale.model;
 
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.integration.ItemDTO;
+
+import java.lang.StringBuilder;
 /**
  * 
  * Represent the item that is being bought and its quantity.
@@ -35,7 +37,7 @@ public class Item {
 	
 	public String getItemName() {
 		String itemNameCopy = new String(itemName);
-		return itemName;
+		return itemNameCopy;
 	}
 	
 	public int getQuantity() {
@@ -76,4 +78,9 @@ public class Item {
 		return totalItemPrice;
 	}
 	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(itemName + " x " + quantity + "  " + itemPrice.toString());
+		return builder.toString();
+	}
 }

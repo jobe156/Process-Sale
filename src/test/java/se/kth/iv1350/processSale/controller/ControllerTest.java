@@ -67,40 +67,4 @@ class ControllerTest {
 		ItemRegistrationDTO itmRegDTO = cntrl.registerItem(itemID, quantity);
 		assertNull(itmRegDTO, "Item with null quantity was added to the sale");
 	}
-
-	@Test
-	public void testDiscountRequest() {
-		cntrl.startSale();
-		ItemRegistrationDTO itmRegDTO = cntrl.registerItem(itemID, 10);
-		Amount totalBeforDiscount = itmRegDTO.getRunningTotal();
-		DisplayTransactionDTO disTraDTO = cntrl.DiscountRequest(customerID);
-		Amount totalAfterDisocunt = disTraDTO.getTotalPrice();
-		boolean expResult = false;
-		boolean result = totalBeforDiscount.equal(totalAfterDisocunt);
-		assertEquals(expResult, result, "Discount was not applied desipte the sale being eligible" + "for one.");
-	}
-
-	@Test
-	public void testDiscountRequestNotEligibleForDiscount() {
-		cntrl.startSale();
-		ItemRegistrationDTO itmRegDTO = cntrl.registerItem(itemID, 1);
-		Amount totalBeforDiscount = itmRegDTO.getRunningTotal();
-		DisplayTransactionDTO disTraDTO = cntrl.DiscountRequest(customerID);
-		Amount totalAfterDisocunt = disTraDTO.getTotalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforDiscount.equal(totalAfterDisocunt);
-		assertEquals(expResult, result, " Discount was applied despite the sale not being" + "applicable for one.");
-	}
-
-	@Test
-	public void testDiscountRequestNullArgument() {
-		cntrl.startSale();
-		ItemRegistrationDTO itmRegDTO = cntrl.registerItem(itemID, 10);
-		Amount totalBeforDiscount = itmRegDTO.getRunningTotal();
-		DisplayTransactionDTO disTraDTO = cntrl.DiscountRequest(null);
-		Amount totalAfterDisocunt = disTraDTO.getTotalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforDiscount.equal(totalAfterDisocunt);
-		assertEquals(expResult, result, "null argument aplied a discount to a sale");
-	}
 }
