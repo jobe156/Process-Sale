@@ -3,7 +3,7 @@ package se.kth.iv1350.processSale.controller;
 import se.kth.iv1350.processSale.integration.AccountingSystemHandler;
 import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.ItemDTO;
-
+import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.integration.RegistryCreator;
 import se.kth.iv1350.processSale.model.CashRegister;
 import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
