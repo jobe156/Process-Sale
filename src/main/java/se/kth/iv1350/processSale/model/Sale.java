@@ -15,25 +15,36 @@ import se.kth.iv1350.processSale.util.Amount;
  */
 public class Sale {
 	private LocalTime localTime;
+	private String storeName;
 	private String storeAdress;
-	private List<Item> items = new ArrayList<>();
+	private List<Item> items= new ArrayList<>();
 
 	/**
 	 * starts an instance of a sale which sets the time and date.
 	 */
 	public Sale() {
+		storeName = "The Store";
 		localTime = java.time.LocalTime.now();
 		storeAdress = "street St 11";
 	}
 
-	/**
-	 * 
-	 * @return The list containing the registered items and the quantity of them.
-	 */
 	public List<Item> getItems() {
 		List<Item> itemsCopy = new ArrayList<Item>(items);
 		return itemsCopy;
 	}
+	
+	public LocalTime getTimeOfSale() {
+		return localTime;
+	}
+	
+	public String getStoreAdress() {
+		return new String(storeAdress);
+	}
+	
+	public String getStoreName() {
+		return new String(storeName);
+	}
+	
 
 	/**
 	 * Adds an <code>item</code>, increases the quantity of an <code>item</code> to
@@ -43,18 +54,18 @@ public class Sale {
 	 * @param quantity tells the number of items that are being addad to the
 	 *                 {@link Sale}.
 	 */
-	public void addItem(ItemDTO itemDTO, int quantity) {
-		if (itemDTO == null || quantity <= 0)
+	public void addItem(ItemDTO itemDTO) {
+		if (itemDTO == null)
 			return;
 		for (Item currentItem : items)
 			if (currentItem.getItemName().equals(itemDTO.getItemName())) {
-				currentItem.increaseQuantity(quantity);
+				currentItem.increaseQuantity();
 				return;
 			}
-		Item item = new Item(itemDTO, quantity);
+		Item item = new Item(itemDTO);
 		items.add(item);
 	}
-
+	
 	/**
 	 * Calculates the final price of the sale.
 	 * 
@@ -63,17 +74,16 @@ public class Sale {
 	 */
 	public Amount CalculateFinalPrice() {
 		Amount totalPrice = new Amount();
+		double totalVatRate = 1;
 		if (!items.isEmpty()) {
-			double totalVatRate = 1;
-			for (Item item : items) {
-				totalPrice.add(item.totalItemPrice());
-				totalVatRate += item.getItemVat();
+			for (Item currentItem : items) {
+				totalPrice = totalPrice.add(currentItem.totalItemPrice());
+				totalVatRate += currentItem.getItemVat();
 			}
-			totalPrice.multiply(totalVatRate);
 		}
-		return totalPrice;
+		return totalPrice.multiply(totalVatRate);
 	}
-
+	
 	/**
 	 * 
 	 * gets the sum of the quantities of all items.
@@ -86,14 +96,5 @@ public class Sale {
 			totalNumberOfItems += item.getQuantity();
 		
 		return totalNumberOfItems;
-	}
-	
-	public LocalTime getTimeOfSale() {
-		return localTime;
-	}
-	
-	public String getStoreAdress() {
-		String storeAdressCopy = new String(storeAdress);
-		return storeAdressCopy;
 	}
 }

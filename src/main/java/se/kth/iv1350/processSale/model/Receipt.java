@@ -5,30 +5,25 @@ import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import java.lang.StringBuilder;
 
 public class Receipt {
-	private SaleLogDTO saleLog;
 	private String receiptString;
 	
+
 	public Receipt(SaleLogDTO saleLog) {
-		this.saleLog = saleLog;
-		receiptString = receiptToString();
-	}
-	
-	private String receiptToString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Store adress: " + saleLog.getStoreAdress() + "/n");
-		builder.append("Time of sale: " + saleLog.getTimeOfSale().toString() + "/n");
-		builder.append("Bought items: " + "/n" );
+		builder.append("Store name: \t"+ saleLog.getStoreName() + "\n");
+		builder.append("Store adress: \t" + saleLog.getStoreAdress() + "\n");
+		builder.append("Time of sale: \t" + saleLog.getTimeOfSale().toString() + "\n");
+		builder.append("Bought items: \t" + "\n\n" );
 		for(Item item: saleLog.getItems()) 
-			builder.append(item.toString() + "/n");
-		builder.append("/nTotalVatRate: " + String.valueOf(saleLog.getTotalVatRate()) + "/n");
-		builder.append("Total price: " + saleLog.getTotalPrice().toString() + "/n");
-		builder.append("Paid amount: " + saleLog.getPaidAmount().toString() + "/n");
-		builder.append("Total price: " + saleLog.getChange().toString() + "/n");
-		return builder.toString();
+			builder.append(item.toString() + "\n");
+		builder.append("\nTotalVatRate: \t" + String.valueOf(saleLog.getTotalVatRate()) + "\n");
+		builder.append("Total price: \t" + saleLog.getTotalPrice().toString() + "\n");
+		builder.append("Paid amount: \t" + saleLog.getPaidAmount().toString() + "\n");
+		builder.append("Change: \t" + saleLog.getChange().toString() + "\n");
+		this.receiptString = builder.toString();
 	}
 	
-	public String getReceiptString() {
-		String receiptStringCopy = new String(receiptString);
-		return receiptStringCopy;
+	public String toString() {
+		return new String(receiptString);
 	}
 }

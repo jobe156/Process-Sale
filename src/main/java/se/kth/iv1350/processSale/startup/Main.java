@@ -23,7 +23,7 @@ public class Main {
 			Controller controller = new Controller( SIProvider);
 			View view = new View(controller);
 			
-			//metod för att köra programmet
+			view.runFakeExecution();
 		}
 		
 

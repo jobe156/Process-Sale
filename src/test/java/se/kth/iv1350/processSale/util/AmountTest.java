@@ -19,121 +19,160 @@ class AmountTest {
 	}
 
 	@Test
-	public void testEqualNullArg() {
+	public void testEquals() {
+		double amount1State = 10;
+		double amount2State = 10;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		boolean expResult = true;
+		boolean result = amount1.equals(amount2);
+		assertEquals(expResult, result, "Amount instances with the same states are not equal");
+	}
+
+	@Test
+	public void testNotEquals() {
+		Amount amountNine = new Amount(9);
+		boolean expResult = false;
+		boolean result = amountTen.equals(amountNine);
+		assertEquals(expResult, result, "Amount instances wiht diffrent states are equal");
+	}
+	
+	@Test
+	public void testEqualsNull() {
 		Amount nullAmount = null;
 		boolean expResult = false;
-		boolean result = amountTen.equal(nullAmount);
+		boolean result = amountTen.equals(nullAmount);
 		assertEquals(expResult, result, "Amount instance equal to null");
 	}
 
 	@Test
-	public void testNotEqual() {
-		Amount amountNine = new Amount(9);
+	public void testNotEqualsJavaLangObject() {
+		Object other = new Object();
 		boolean expResult = false;
-		boolean result = amountTen.equal(amountNine);
-		assertEquals(expResult, result, "Amount instances wiht diffrent states are equal");
+		boolean result = amountTen.equals(other);
+		assertEquals(expResult, result, "Amount instance equals pt java.lang.object");
 	}
 
 	@Test
-	public void testEqual() {
-		Amount amount = new Amount(10);
-		boolean expResult = true;
-		boolean result = amountTen.equal(amount);
-		assertEquals(expResult, result, "Amount instances wiht the same states are not equal");
-	}
-
+	public void testAddPosititvResult() {
+		double amount1State = 5;
+		double amount2State = 6;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State + amount2State);
+		Amount result = amount1.add(amount2);
+		assertEquals(expResult, result, "Wrong addition result.");
+		}
+	
 	@Test
-	public void testAddnull() {
-		Amount nullAmount = null;
-		Amount addAmount = new Amount(10);
-		addAmount.add(nullAmount);
-		boolean expResult = true;
-		boolean result = amountTen.equal(addAmount);
-		assertEquals(expResult, result, "Amount instance is diffrent when a null instance is added");
+	public void testAddNegativeResult() {
+		double amount1State = 5;
+		double amount2State = -6;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State + amount2State);
+		Amount result = amount1.add(amount2);
+		assertEquals(expResult, result, "Worng addition result.");
 	}
-
+	
 	@Test
-	public void testAddNegativeArgZeroResult() {
-		Amount negativAmount = new Amount(-11);
-		amountTen.add(negativAmount);
-		Amount zeroAmount = new Amount();
-		boolean expResult = true;
-		boolean result = zeroAmount.equal(amountTen);
-		assertEquals(expResult, result, "an larger negativ Amount instance added to an amount is negative");
+	public void testAddZeorResult() {
+		double amount1State = 5;
+		double amount2State = -5;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State + amount2State);
+		Amount result = amount1.add(amount2);
+		assertEquals(expResult, result, "Worng addition result: should be zero.");
 	}
-
+	
 	@Test
-	public void testAddNegativeArg() {
-		Amount negativeAmount = new Amount(-5);
-		amountTen.add(negativeAmount);
-		Amount expAmount = new Amount(5);
-		boolean expResult = true;
-		boolean result = amountTen.equal(expAmount);
-		assertEquals(expResult, result, "Amount with added negative amount is not equal to the amount after addition");
-	}
-
+	public void testSubtractPosititvResult() {
+		double amount1State = 5;
+		double amount2State = -4;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State - amount2State);
+		Amount result = amount1.subtract(amount2);
+		assertEquals(expResult, result, "Wrong subtraction result.");
+		}
+	
 	@Test
-	public void testAddPositiveArg() {
-		Amount positivAmount = new Amount(5);
-		amountTen.add(positivAmount);
-		Amount expAmount = new Amount(15);
-		boolean expResult = true;
-		boolean result = amountTen.equal(expAmount);
-		assertEquals(expResult, result, "amount with added positiv amount si not equal to the amount after addition");
+	public void testSubtractNegativeResult() {
+		double amount1State = 5;
+		double amount2State = 6;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State - amount2State);
+		Amount result = amount1.subtract(amount2);
+		assertEquals(expResult, result, "Worng subtraction result.");
 	}
-
+	
+	@Test
+	public void testSubtractZeorResult() {
+		double amount1State = 5;
+		double amount2State = 5;
+		Amount amount1 = new Amount(amount1State);
+		Amount amount2 = new Amount(amount2State);
+		Amount expResult = new Amount(amount1State - amount2State);
+		Amount result = amount1.subtract(amount2);
+		assertEquals(expResult, result, "Worng subtraction result: should be zero.");
+	}
+	
+	@Test
+	public void testMultiplyPositiveResult() {
+		double multiple = 1.5;
+		double amountState = 5;
+		Amount product = new Amount(amountState);
+		Amount expResult = new Amount(amountState*multiple);
+		Amount result = product.multiply(multiple);
+		assertEquals(expResult, result, "Wrong multiplication result.");
+	}
+	
 	@Test
 	public void testMultiplyNegativeArg() {
-		double multiple = -2;
-		Amount multAmount = new Amount(amountTen);
-		multAmount.multiply(multiple);
-		boolean expResult = true;
-		boolean result = amountTen.equal(multAmount);
-		assertEquals(expResult, result,
-				"A negative multiple is not ignored, amount and amount times a negative multiple is not equal");
+		double multiple = -1.5;
+		double amountState = 5;
+		Amount product = new Amount(amountState);
+		Amount expResult = new Amount(amountState*multiple);
+		Amount result = product.multiply(multiple);
+		assertEquals(expResult, result, "Wrong multiplication result.");
 	}
-
+	
 	@Test
-	public void testMultiply() {
-		double multiple = 1.5;
-		Amount multAmount = new Amount(amountTen);
-		multAmount.multiply(multiple);
-		Amount expAmount = new Amount(15);
-		boolean expResult = true;
-		boolean result = expAmount.equal(multAmount);
-		assertEquals(expResult, result, "amounts with equals states are not equal");
-
+	public void testMultiplyZeroResult() {
+		double multiple = 0;
+		double amountState = 5;
+		Amount product = new Amount(amountState);
+		Amount expResult = new Amount(amountState*multiple);
+		Amount result = product.multiply(multiple);
+		assertEquals(expResult, result, "Wrong multiplication result.");
 	}
-
+	
 	@Test
-	public void testCompareMoreThan() {
-		Amount amountEleven = new Amount(11);
-		int expInt = 1;
-		int resultInt = amountEleven.compare(amountTen);
-		boolean expResult = true;
-		boolean result = (expInt == resultInt);
-		assertEquals(expResult, result, "amount with larger state is less or equal to a amount" + "lesser amount");
+	public void testToStringPositiveAmt() {
+		double amountState = 5;
+		Amount amount = new Amount(amountState);
+		String expResult = String.valueOf(amountState);
+		String result = amount.toString();
+		assertEquals(expResult, result, "ToString operation went wrong.");
 	}
-
+	
 	@Test
-	public void testCompareEqual() {
-		Amount amountEqual = new Amount(10);
-		int expInt = 0;
-		int resultInt = amountEqual.compare(amountTen);
-		boolean expResult = true;
-		boolean result = (expInt == resultInt);
-		assertEquals(expResult, result, "amounts with equal states are note equal");
+	public void testToStringNegativAmt() {
+		double amountState = -5;
+		Amount amount = new Amount(amountState);
+		String expResult = String.valueOf(amountState);
+		String result = amount.toString();
+		assertEquals(expResult, result, "ToString operation went wrong.");
 	}
-
+	
 	@Test
-	public void testCompareLessThan() {
-		Amount amountEleven = new Amount(11);
-		int expInt = -1;
-		int resultInt = amountTen.compare(amountEleven);
-		boolean expResult = true;
-		boolean result = (expInt == resultInt);
-		assertEquals(expResult, result,
-				"amount with lesser state is equal or larger to a" + "amount with a larger state");
+	public void testToStringZeroAmt() {
+		double amountState = 0;
+		Amount amount = new Amount(amountState);
+		String expResult = String.valueOf(amountState);
+		String result = amount.toString();
+		assertEquals(expResult, result, "ToString operation went wrong.");
 	}
-
 }

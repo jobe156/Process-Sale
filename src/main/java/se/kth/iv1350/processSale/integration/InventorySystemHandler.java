@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.processSale.integration.ItemDTO;
-import se.kth.iv1350.processSale.util.ItemIdentifier;
+import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 
 
@@ -17,7 +17,7 @@ public class InventorySystemHandler {
 	private List<ItemDTO> items = new ArrayList<>();
 	 
 	/**
-	 * creats the itemSystemHandler and adds Items;
+	 * creates the itemSystemHandler and adds Items;
 	 */
 	
 	InventorySystemHandler(){
@@ -51,12 +51,11 @@ public class InventorySystemHandler {
 	 * @return			the searched <code>ItemDTO</code> or null.
 	 */
 	public ItemDTO findItem(ItemIdentifier itemID) {
-		if(itemID != null) {
-			for(ItemDTO item: items)
-				if( item.getItemIdentifier().equals(itemID) )
-					return item;
+		if(itemID != null){
+			for(ItemDTO itemDTO: items)
+				if( itemDTO.getItemIdentifier().equals(itemID))
+					return itemDTO;
 		}
 		return null;
 	}
-	
 }

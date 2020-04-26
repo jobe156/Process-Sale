@@ -4,164 +4,145 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
+import java.time.LocalTime;
 import se.kth.iv1350.processSale.integration.ItemDTO;
-
-import se.kth.iv1350.processSale.controller.Controller;
-import se.kth.iv1350.processSale.integration.Printer;
-import se.kth.iv1350.processSale.model.SaleInformationProvider;
-
-import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
-
 import se.kth.iv1350.processSale.util.Amount;
-import se.kth.iv1350.processSale.util.ItemIdentifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class SaleTest {
 	private Sale sale;
 	private ItemDTO breadItemDTO;
-
-	private Controller cntrl;
-
-	private CustomerIdentificationDTO customerID;
+	private ItemDTO appleItemDTO;
+	private ItemDTO cerialItemDTO;
 
 	@BeforeEach
 	public void setUp() {
 		sale = new Sale();
-		// läg til timeDTOs här då det används på flera ställen.
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		breadItemDTO = new ItemDTO(itemID, "Bread", itemPrice, "It´s whole grain!", 0.1);
-
-		Printer printer = new Printer();
-		SaleInformationProvider SIProvider = new SaleInformationProvider(printer);
-		cntrl = new Controller(SIProvider);
-
-		customerID = new CustomerIdentificationDTO("Billy Bob", 1982, 175, 12345, true);
-
+		
+		Amount breadItemPrice = new Amount(50);
+		ItemIdentifier breadItemID = new ItemIdentifier("001");
+		breadItemDTO = new ItemDTO(breadItemID, "Bread", breadItemPrice, "It´s whole grain!", 0.1);
+		
+		Amount appleItemPrice = new Amount(74);
+		ItemIdentifier appleItemID = new ItemIdentifier("002");
+		appleItemDTO = new ItemDTO(appleItemID, "Apple",appleItemPrice, "It´s a fruit!", 0.30);
+		
+		Amount cerialItemPrice = new Amount(110);
+		ItemIdentifier cerialItemID = new ItemIdentifier("003");
+		cerialItemDTO = new ItemDTO(cerialItemID, "Cereal",cerialItemPrice, "It contains dried friut!", 0.10);
 	}
 
 	@AfterEach
 	public void tearDown() {
 		sale = null;
 		breadItemDTO = null;
-
-		cntrl = null;
-
-		customerID = null;
-
+		appleItemDTO = null;
+		cerialItemDTO = null;
+	}
+	
+	@Test
+	public void testAddItem() {
+		Item breadItem = new Item(breadItemDTO);
+		List<Item> expResult = new ArrayList<>();
+		expResult.add(breadItem);
+		sale.addItem(breadItemDTO);
+		List<Item> result = sale.getItems();
+		for(int i = 0; i < result.size(); i++) {
+			assertEquals(expResult.get(i).getItemName(), result.get(i).getItemName(), "Items in sale has incorrect names");
+			assertEquals(expResult.get(i).getQuantity(),result.get(i).getQuantity(), "items int sale has incorrect quanteties");
+			assertEquals(expResult.get(i).getItemPrice(),result.get(i).getItemPrice(), "items int sale has incorrect item price");
+			assertEquals(expResult.get(i).getItemVat(),result.get(i).getItemVat(), "items int sale has incorrect item vat rate");
+		}
 	}
 
+	@Test
+	public void testAddDiffrentItems() {
+		Item breadItem = new Item(breadItemDTO);
+		Item appleItem = new Item(appleItemDTO);
+		Item cerialItem = new Item(cerialItemDTO);
+		List<Item> expResult = new ArrayList<>();
+		expResult.add(breadItem);
+		expResult.add(appleItem);
+		expResult.add(cerialItem);
+		sale.addItem(breadItemDTO);
+		sale.addItem(appleItemDTO);
+		sale.addItem(cerialItemDTO);
+		List<Item> result = sale.getItems();
+		for(int i = 0; i < result.size(); i++) {
+			assertEquals(expResult.get(i).getItemName(), result.get(i).getItemName(), "Items in sale has incorrect names");
+			assertEquals(expResult.get(i).getQuantity(),result.get(i).getQuantity(), "items int sale has incorrect quanteties");
+			assertEquals(expResult.get(i).getItemPrice(),result.get(i).getItemPrice(), "items int sale has incorrect item price");
+			assertEquals(expResult.get(i).getItemVat(),result.get(i).getItemVat(), "items int sale has incorrect item vat rate");
+		}	
+	}
+	
+	@Test
+	public void testAddItemAlreadyInSale() {
+		Item breadItem = new Item(breadItemDTO);
+		sale.addItem(breadItemDTO);
+		List<Item> expResult = new ArrayList<>();
+		for(int i = 0; i < 4; i++) {
+			breadItem.increaseQuantity();
+			sale.addItem(breadItemDTO);
+		}
+		expResult.add(breadItem);
+		List<Item> result = sale.getItems();
+		for(int i = 0; i < result.size(); i++) {
+			assertEquals(expResult.get(i).getItemName(), result.get(i).getItemName(), "Items in sale has incorrect names");
+			assertEquals(expResult.get(i).getQuantity(),result.get(i).getQuantity(), "items int sale has incorrect quanteties");
+			assertEquals(expResult.get(i).getItemPrice(),result.get(i).getItemPrice(), "items int sale has incorrect item price");
+			assertEquals(expResult.get(i).getItemVat(),result.get(i).getItemVat(), "items int sale has incorrect item vat rate");
+		}
+	}
+	
 	@Test
 	public void testAddItemNullItemDto() {
 		ItemDTO itemDTO = null;
-		int quantity = 1;
-		sale.addItem(itemDTO, quantity);
-		boolean expResult = true;
+		sale.addItem(itemDTO);
 		boolean result = sale.getItems().isEmpty();
-		assertEquals(expResult, result, "list contains a object when a null items was used as arguemnt");
+		assertTrue(result, "list contains a invalid item");
 	}
-
-	@Test
-	public void testAddItemZeroQuantity() {
-		int quantity = 0;
-		sale.addItem(breadItemDTO, quantity);
-		boolean expResult = true;
-		boolean result = sale.getItems().isEmpty();
-		assertEquals(expResult, result, "list contains added object despite having a quantity of 0");
-	}
-
-	@Test
-	public void testAddItem() {
-		int quantity = 1;
-		sale.addItem(breadItemDTO, quantity);
-		boolean expResult = true;
-		boolean result = sale.getItems().get(0).getItemName().equals(breadItemDTO.getItemName()); // super enkelt att
-																									// läsa
-		assertEquals(expResult, result, "added item is not i not in sale item list");
-	}
-
-	@Test
-	public void testCalculatefinalPriceNoItems() {
-		Amount zeroAmount = new Amount();
-		Amount totalAmount = sale.CalculateFinalPrice();
-		boolean expResult = true;
-		boolean result = zeroAmount.equal(totalAmount);
-		assertEquals(expResult, result, "sale with no items has i non zero price");
-	}
-
+	
 	@Test
 	public void testCalculatefinalPrice() {
-		int quantity = 1;
-		sale.addItem(breadItemDTO, quantity);
-		Amount totalAmount = sale.CalculateFinalPrice();
-		Amount expAmount = new Amount(breadItemDTO.getItemPrice());
 		double totalVat = 1 + breadItemDTO.getVatRate();
-		expAmount.multiply(totalVat);
-		boolean expResult = true;
-		boolean result = expAmount.equal(totalAmount);
-		assertEquals(expResult, result, "total price was not correct.");
+		Amount expResult = breadItemDTO.getItemPrice().multiply(totalVat);
+		sale.addItem(breadItemDTO);
+		Amount result = sale.CalculateFinalPrice();
+		assertEquals(expResult, result, "the total price of the sale was not successful calculated ");
 	}
-
-	/*
+	
 	@Test
-	public void testLookForDiscount() {
-		sale.addItem(breadItemDTO, 10);
-		Amount totalBeforeDiscount = sale.CalculateFinalPrice();
-		sale.LookForDiscounts(cntrl.getDiscountRepositoryHandler(), customerID);
-		Amount totalAfterDiscount = sale.CalculateFinalPrice();
-		boolean expResult = false;
-		boolean result = totalBeforeDiscount.equal(totalAfterDiscount);
-		assertEquals(expResult, result, "Amount before applied discount is the same as " + "Amount after Discount.");
+	public void testCalculatefinalPriceNoItems() {
+			Amount expResult = new Amount();
+			Amount result = sale.CalculateFinalPrice();
+			assertEquals(expResult, result, "the total price of the sale was not successful calculated ");
 	}
-
+	
 	@Test
-	public void testLookForDiscountNotDiscountEligible() {
-		sale.addItem(breadItemDTO, 1);
-		Amount totalBeforeDiscount = sale.CalculateFinalPrice();
-		sale.LookForDiscounts(cntrl.getDiscountRepositoryHandler(), customerID);
-		Amount totalAfterDiscount = sale.CalculateFinalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforeDiscount.equal(totalAfterDiscount);
-		assertEquals(expResult, result,
-				"Discount has been aplied despite the sale" + " not being eligible for a discount.");
+	public void testGetTotalNumberOfItems() {
+		Item breadItem = new Item(breadItemDTO);
+		Item cerialItem = new Item(cerialItemDTO);
+		List<Item> itemList = new ArrayList<>();
+		for(int i = 0; i < 5; i++) {
+			itemList.add(breadItem);
+			itemList.add(cerialItem);
+			sale.addItem(breadItemDTO);
+			sale.addItem(cerialItemDTO);
+		}
+		int expResult = 0;
+		for(Item item: itemList)
+			expResult += item.getQuantity();
+		int result = sale.getTotalNumberOfItems();
+		assertEquals(expResult, result, "total number of items is not correct");
 	}
-
+	
 	@Test
-	public void testLookForDiscountNotEligibilCustomerIdentification() {
-		CustomerIdentificationDTO invalidCustomerID = new CustomerIdentificationDTO("Billy Bob", 1982, 175, 12345,
-				false);
-		sale.addItem(breadItemDTO, 10);
-		Amount totalBeforeDiscount = sale.CalculateFinalPrice();
-		sale.LookForDiscounts(cntrl.getDiscountRepositoryHandler(), invalidCustomerID);
-		Amount totalAfterDiscount = sale.CalculateFinalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforeDiscount.equal(totalAfterDiscount);
-		assertEquals(expResult, result,
-				"Discount applied despite customerIDentification not being" + "eligible for discount.");
+	public void testGetTotalNumberOfItemsZeroItems() {
+		int expResult = 0;
+		int result = sale.getTotalNumberOfItems();
+		assertEquals(expResult, result, "total number of items is not correct");
 	}
-
-	@Test
-	public void testLookForDiscountNullcustomerIDArg() {
-		CustomerIdentificationDTO nullCustomerID = null;
-		sale.addItem(breadItemDTO, 10);
-		Amount totalBeforeDiscount = sale.CalculateFinalPrice();
-		sale.LookForDiscounts(cntrl.getDiscountRepositoryHandler(), nullCustomerID);
-		Amount totalAfterDiscount = sale.CalculateFinalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforeDiscount.equal(totalAfterDiscount);
-		assertEquals(expResult, result,
-				"Discount has been aplied despite the sale" + " not being eligible for a discount.");
-	}
-
-	@Test
-	public void testLookForDiscountNullDRHandlerArg() {
-		sale.addItem(breadItemDTO, 10);
-		Amount totalBeforeDiscount = sale.CalculateFinalPrice();
-		sale.LookForDiscounts(null, customerID);
-		Amount totalAfterDiscount = sale.CalculateFinalPrice();
-		boolean expResult = true;
-		boolean result = totalBeforeDiscount.equal(totalAfterDiscount);
-		assertEquals(expResult, result, "Amount before applied discount is the same as " + "Amount after Discount.");
-	}
-	*/
 }

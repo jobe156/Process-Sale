@@ -1,5 +1,4 @@
 package se.kth.iv1350.processSale.controller;
-
 import se.kth.iv1350.processSale.integration.AccountingSystemHandler;
 import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.ItemDTO;
@@ -7,12 +6,12 @@ import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.integration.RegistryCreator;
 import se.kth.iv1350.processSale.model.CashRegister;
 import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
+import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.util.Amount;
-import se.kth.iv1350.processSale.util.ItemIdentifier;
 
 
 
@@ -59,16 +58,19 @@ public class Controller {
 	 * @return			Information about the registered <code>Item</code> and <code>sale</code>.
 	 * 					returns null if the identifier is invalid.
 	 */
-	public ItemRegistrationDTO registerItem(ItemIdentifier itemID, int quantity) {
+	public ItemRegistrationDTO registerItem(ItemIdentifier itemID) {
 		ItemDTO itemDTO = ISHandler.findItem(itemID);
-		currentSale.addItem(itemDTO, quantity);
+		currentSale.addItem(itemDTO);
 		ItemRegistrationDTO itmRegDTO = SIProvider.generateItemRegistrationDTO(currentSale, itemDTO);
 		return itmRegDTO;
 	}
 	
 	public DisplayTransactionDTO processCashPayment(Amount paidAmount) {
-		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister);
-		SaleLogDTO sLog = cashPayment.ProcessPayment(currentSale);
-		return null;
+		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, currentSale);
+		SaleLogDTO saleLog = cashPayment.processPayment(currentSale);
+		ASHandler.addSaleLog(saleLog);
+		SIProvider.printReceipt(saleLog);
+		DisplayTransactionDTO disTraDto = SIProvider.generateDisplayTransactionDTO(saleLog);
+		return disTraDto;
 	}
 }

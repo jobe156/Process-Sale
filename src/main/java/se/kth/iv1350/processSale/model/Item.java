@@ -20,24 +20,23 @@ public class Item {
 	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
-	public Item(ItemDTO itemDTO, int quantity) {
+	public Item(ItemDTO itemDTO) {
 		this.itemName = itemDTO.getItemName();
-		this.quantity = quantity;
+		this.quantity = 1;
 		this.itemPrice = itemDTO.getItemPrice();
 		this.itemVAT = itemDTO.getVatRate();
 	}
 	
 	
 	public Item(Item item) {
-		this.itemName = item.getItemName();
-		this.quantity = item.getQuantity();
-		this.itemPrice = item.getItemPrice();
-		this.itemVAT = item.getItemVat();
+		this.itemName = item.itemName;
+		this.quantity = item.quantity;
+		this.itemPrice = item.itemPrice;
+		this.itemVAT = item.itemVAT;
 	}
 	
 	public String getItemName() {
-		String itemNameCopy = new String(itemName);
-		return itemNameCopy;
+		return new String (itemName);
 	}
 	
 	public int getQuantity() {
@@ -45,14 +44,12 @@ public class Item {
 	}
 	
 	public Amount getItemPrice() {
-		Amount itemPriceCopy = new Amount(itemPrice);
-		return itemPriceCopy;
+		return new Amount (itemPrice);
 	}
 	
 	public double getItemVat() {
 		return itemVAT;
 	}
-	
 	
 	/**
 	 * increase the quantity of an item.
@@ -60,12 +57,9 @@ public class Item {
 	 * @Param quantity	Is how much the quantity will be increased.
 	 * 
 	 */
-	public void increaseQuantity(int quantity) { // have to concider negative quantity
-		if(quantity < 0)
-			return;
-		this.quantity += quantity;
+	public void increaseQuantity() {
+		this.quantity++;
 	}
-	
 	
 	/**
 	 * Calculates the total price of on type of {@link item}.
@@ -73,14 +67,33 @@ public class Item {
 	 * @return	the <code>Amount</code> equal to the item price multiplied by its quantity.
 	 */
 	public Amount totalItemPrice() {
-		Amount totalItemPrice = new Amount(itemPrice);
-		totalItemPrice.multiply(quantity);
-		return totalItemPrice;
+		return new Amount(itemPrice).multiply(quantity);
 	}
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(itemName + " x " + quantity + "  " + itemPrice.toString());
+		builder.append(itemName);
+		builder.append( " x ");
+		builder.append(Integer.toString(quantity));
+		builder.append("\t");
+		builder.append(itemPrice.toString());
 		return builder.toString();
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == null || !(getClass() == other.getClass()))
+			return false;
+		Item otherItem = (Item) other;
+		if(!(itemName.equals(otherItem.itemName)))
+			return false;
+		if(quantity != otherItem.quantity)
+			return false;
+		if(!(itemPrice.equals(otherItem.itemPrice)))
+			return false;
+		if(itemVAT != otherItem.itemVAT)
+			return false;
+		return true;
+	}
+	
 }

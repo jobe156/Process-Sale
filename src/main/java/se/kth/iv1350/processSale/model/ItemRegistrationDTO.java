@@ -45,4 +45,13 @@ public class ItemRegistrationDTO {
 		Amount runningTotalCopy = new Amount(runningTotal);
 		return runningTotalCopy;
 	}
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Item name: " + itemName + "\n");
+		builder.append("Item description: " + itemDescription + "\n");
+		builder.append("item price: " + itemPrice.toString() + "\n");
+		builder.append("runningTotal: " + runningTotal.toString() + "\n");
+		return builder.toString();
+	}
 }

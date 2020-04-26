@@ -30,41 +30,27 @@ public class SaleInformationProvider {
 	 * 						If the ItemDTO is null or the qunatity of the added item is zero, null will 
 	 * 						be returned.
 	 */
+	
+	//has null exception that returns nul if itemDTO is null
 	public ItemRegistrationDTO generateItemRegistrationDTO(Sale currentSale, ItemDTO itemDTO){
-		if(itemDTO != null) {
-			for(Item item : currentSale.getItems())							//
-				if(itemDTO.getItemName().equals(item.getItemName())) {		// The items isn´t added if the qunatity is zeor
-					if(item.getQuantity() <= 0)								//consider adding seperet method
-						return null;										//for this.
-					else {													//
-						break;												//
-					}
-				}
+		//if(itemDTO != null) {
 			Amount totalPrice = currentSale.CalculateFinalPrice();		
 			ItemRegistrationDTO itmRegDto = new ItemRegistrationDTO(itemDTO, totalPrice);
 			return itmRegDto;
-		}
-		return null;
+		//}
+		//return null;
 	}
 	
-	/**
-	 *	Is used to generate information about the <code>sale</code> regarding the transaction.
-	 *
-	 * @param sale		Provides the infromation for the <code>DisplayTransactionDTO</code>.
-	 * @return			shows the total price after discount and vatrate has been applied.
-	 */
-	public DisplayTransactionDTO generateDisplayTransactionDTO (Sale sale) {
-		DisplayTransactionDTO disTraDto = new DisplayTransactionDTO(sale);
-		return disTraDto;
-	}
-	
+	//has null exception, if saleLog == null, null is returned.
 	public DisplayTransactionDTO generateDisplayTransactionDTO (SaleLogDTO saleLog) {
+		//if(saleLog == null)
+			//return null;
 		DisplayTransactionDTO disTraDto = new DisplayTransactionDTO(saleLog);
 		return disTraDto;
 	}
 	
 	public void printReceipt(SaleLogDTO saleLog) {
-		Receipt receipt = new Receipt( saleLog);
+		Receipt receipt = new Receipt(saleLog);
 		printer.printReceipt(receipt);
 	}	
 }

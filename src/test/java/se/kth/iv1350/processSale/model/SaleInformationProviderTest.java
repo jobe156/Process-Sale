@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import se.kth.iv1350.processSale.integration.Printer;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.util.Amount;
-import se.kth.iv1350.processSale.util.ItemIdentifier;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
+import se.kth.iv1350.processSale.integration.SaleLogDTO;
 
 class SaleInformationProviderTest {
 	private Printer printer;
@@ -38,36 +38,43 @@ class SaleInformationProviderTest {
 
 	@Test
 	public void testGenerateItemRegistrationDTO() {
-		sale.addItem(breadItemDTO, 3);
+		sale.addItem(breadItemDTO);
 		Amount totalAmount = sale.CalculateFinalPrice();
-		ItemRegistrationDTO expItmRegDto = new ItemRegistrationDTO(breadItemDTO, totalAmount);
-		ItemRegistrationDTO resultItmRegDto = SIProvider.generateItemRegistrationDTO(sale, breadItemDTO);
-		boolean expResult = true;
-		boolean result = false;
-		if (expItmRegDto.getItemName().equals(resultItmRegDto.getItemName())
-				&& expItmRegDto.getItemPrice().equals(resultItmRegDto.getItemPrice())
-				&& expItmRegDto.getItemDescription().equals(resultItmRegDto.getItemDescription())
-				&& expItmRegDto.getRunningTotal().equals(resultItmRegDto.getRunningTotal()))
-			result = true;
-		assertEquals(expResult, result, "instances with equal states are not equal");
+		ItemRegistrationDTO expResult = new ItemRegistrationDTO(breadItemDTO, totalAmount);
+		ItemRegistrationDTO result = SIProvider.generateItemRegistrationDTO(sale, breadItemDTO);
+		assertEquals(expResult.getItemName(), result.getItemName(), "Wrong item name.");
+		assertEquals(expResult.getItemDescription(), result.getItemDescription(), "Wrong item description.");
+		assertEquals(expResult.getItemPrice(), result.getItemPrice(), "Wrong item price.");
+		assertEquals(expResult.getRunningTotal(), result.getRunningTotal(), "Wrong item running total.");
 	}
-
+	
 	@Test
 	public void testGenerateItemRegistrationDTONullItemDTO() {
 		ItemDTO nullItemDTO = null;
-		sale.addItem(nullItemDTO, 1);
+		sale.addItem(nullItemDTO);
 		ItemRegistrationDTO resultItmRegDto = SIProvider.generateItemRegistrationDTO(sale, nullItemDTO);
-		assertNull(resultItmRegDto, "null item DTO resulted in an non null DTO");
+		assertNull(resultItmRegDto, "ItemDTO is null");
 	}
 
 	@Test
 	public void testGenerateDisplayTransactionDTO() {
-
+		sale.addItem(breadItemDTO);
+		CashRegister cashRegister = new CashRegister();
+		Amount amountPaid = new Amount(200);
+		CashPayment cashPayment= new CashPayment(amountPaid, cashRegister, sale);
+		SaleLogDTO sLog = cashPayment.processPayment(sale);
+		DisplayTransactionDTO expResult = new DisplayTransactionDTO(sLog);
+		DisplayTransactionDTO result = SIProvider.generateDisplayTransactionDTO(sLog);
+		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
+		assertEquals(expResult.getAmountPaid(), result.getAmountPaid(), "invalid amount paid");
+		assertEquals(expResult.getChange(), result.getChange(), "invalid change");
 	}
 
 	@Test
 	public void testGenerateDisplayTransactionDTONullArg() {
-
+		SaleLogDTO nullSaleLog = null;
+		DisplayTransactionDTO result = SIProvider.generateDisplayTransactionDTO(nullSaleLog);
+		assertNull(result, "null argument generated a sale Log");
 	}
 
 }

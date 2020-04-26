@@ -12,7 +12,11 @@ public class CashRegister {
 	}
 	
 	public void addPayment(Amount amount) {
-		amntInReg.add(amntInReg);
+		if(amount != null)
+		amntInReg = amntInReg.add(amount);
 	}
 	
+	public Amount getAmountInRegister() {
+		return new Amount(amntInReg);
+	}
 }

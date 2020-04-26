@@ -18,15 +18,13 @@ public class Amount {
 		this.currentAmount = amount;
 	}
 	
-	// consider removing cuz mabye only used in test.
-	
 	/**
 	 * Creates an instance of an {@link Amount} from an instance of an {@link Amount}.
 	 * 
 	 * @param amount	Is an instance of {@link Amount}.
 	 */
 	public Amount(Amount amount) {	
-		currentAmount = amount.getCurrentAmount();
+		currentAmount = amount.currentAmount;
 	}
 	
 	
@@ -38,37 +36,24 @@ public class Amount {
 		this(0);
 	}
 	
-	private double getCurrentAmount() {
-		Amount currentAmountCopy = new Amount(currentAmount);
-		return currentAmount;
-	}
-	
 	/**
 	 * Checks to see if a given amount is equal to the current amount.
 	 * 
 	 * @param amount	Is the amount the current amount is being compared to.
 	 */
-	public boolean equal(Amount amount) {
-		if((amount != null) && currentAmount == amount.getCurrentAmount())
-			return true;
+	@Override
+	public boolean equals(Object other) {
+		if(other == null  || !(other instanceof Amount))
+			return false;
+		Amount otherAmount = (Amount) other;
+		return currentAmount == otherAmount.currentAmount;
+		/*
+		if(other != null && other instanceof Amount) {
+			Amount otherAmount = (Amount) other;
+			return currentAmount == otherAmount.currentAmount;
+		}
 		return false;
-	}
-	
-	/**
-	 * Compares two amounts.
-	 * 
-	 * @param amount	the amount being compared with.
-	 * @return			Return 1 if compared is less then current amount.
-	 * 					Return 0 if amounts are equal.
-	 * 					Return -1 if compared is larger the current amount.
-	 */
-	public int compare(Amount amount) {
-		if(currentAmount > amount.currentAmount)
-			return 1;
-		else if(currentAmount == amount.currentAmount)
-			return 0;
-		else
-			return -1;	
+		*/
 	}
 	
 	/**
@@ -76,38 +61,36 @@ public class Amount {
 	 * 
 	 * @param amount	amount being added to the current {@link Amount}.
 	 */
-	public void add(Amount amount){
-		if(amount != null ) {
-			currentAmount += amount.getCurrentAmount();
-				if(currentAmount < 0 ) {
-					currentAmount = 0;
-				}
-		}
+	public Amount add(Amount amount){
+			return new Amount(currentAmount + amount.currentAmount);
 	}
-	
-	public void subtract(Amount amount) {
-		if(amount != null ) {
-			currentAmount -= amount.currentAmount;
-			if(currentAmount < 0 ) 
-				currentAmount = 0;
-		}
-	}
-	
-	
 	
 	/**
-	 * Multiplies the the current {@link Amount} with an multiple larger the ze
+	 * Add an {@link amount} the the current {@link amount}.
+	 * 
+	 * @param amount	amount being added to the current {@link Amount}.
+	 */
+	public Amount subtract(Amount amount){
+			return new Amount(currentAmount - amount.currentAmount);
+	
+	}
+	
+	/**
+	 * Multiplies the the current {@link Amount} with an multiple larger then zero
 	 * 
 	 * @param multiple	Is the multiple.
 	 */
-	public void multiply(double multiple) {
-		if(multiple > 0)
-			currentAmount *= multiple;
+	public Amount multiply(double multiple) {
+		 return new Amount(currentAmount * multiple);
 	}
 	
-	//correspondingAmount
-	
-	public String toStirng() {
-		return String.valueOf(currentAmount);
+	public String toString() {
+		String stringAmount = Double.toString(currentAmount);
+		int pointIndex = stringAmount.indexOf(".");
+		StringBuilder builder = new StringBuilder();
+		for(int i = 0; i < pointIndex+2; i++) {
+				builder.append(stringAmount.charAt(i));
+		}
+		return builder.toString();
 	}
 }

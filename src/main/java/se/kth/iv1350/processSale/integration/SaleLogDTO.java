@@ -10,9 +10,9 @@ import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.util.Amount;
 
 public class SaleLogDTO {
-	private String storeName; //detta behövs lägga till i andra ställen också
-	private LocalTime localTime;
+	private String storeName;
 	private String storeAdress;
+	private LocalTime localTime;
 	private List<Item> items;
 	private double totalVatRate = 0;
 	private Amount totalPrice;
@@ -20,6 +20,7 @@ public class SaleLogDTO {
 	private Amount change;
 	
 	public SaleLogDTO(Sale currentSale, CashPayment cPayment) {
+		this.storeName = currentSale.getStoreName();
 		this.localTime = currentSale.getTimeOfSale();
 		this.storeAdress = currentSale.getStoreAdress();
 		this.items = currentSale.getItems();
@@ -30,12 +31,16 @@ public class SaleLogDTO {
 		this.paidAmount = cPayment.getAmountPaid();
 	}
 	
-	public LocalTime getTimeOfSale() {
-		return localTime;
+	public String getStoreName() {
+		return new String(storeName);
 	}
 	
 	public String getStoreAdress() {
-		return storeAdress;
+		return new String(storeAdress);
+	}
+	
+	public LocalTime getTimeOfSale() {
+		return localTime;
 	}
 	
 	public List<Item> getItems() {
@@ -48,17 +53,41 @@ public class SaleLogDTO {
 	}
 	
 	public Amount getTotalPrice() {
-		Amount totalPriceCopy = new Amount(totalPrice);
-		return totalPriceCopy;
+		return new Amount(totalPrice);
 	}
 	
 	public Amount getPaidAmount() {
-		Amount paidAmountCopy = new Amount(paidAmount);
-		return paidAmountCopy;
+		return new Amount(paidAmount);
 	}
 
 	public Amount getChange() {
-		Amount changeCopy = new Amount(change);
-		return change;
+		return new Amount(change);
+	}
+	
+	@Override 
+	public boolean equals(Object other) {
+		if(other == null || !(getClass() == other.getClass()))
+			return false;
+		SaleLogDTO otherSaleLogDTO = (SaleLogDTO) other;
+		if(!(storeName.equals(otherSaleLogDTO.storeName)))
+			return false;
+		if(!(storeAdress.equals(otherSaleLogDTO.storeAdress)))
+			return false;
+		if(!(localTime.equals(otherSaleLogDTO.localTime)))
+			return false;
+		
+		for(int i = 0; i < items.size()-1; i++)
+			if(!(items.get(i).equals(otherSaleLogDTO.items.get(i))))
+				return false;
+		
+		if(!(totalPrice.equals(otherSaleLogDTO.totalPrice)))
+			return false;		
+		if(totalVatRate != otherSaleLogDTO.totalVatRate)
+			return false;
+		if(!(change.equals(otherSaleLogDTO.change)))
+			return false;
+		if(!(paidAmount.equals(otherSaleLogDTO.paidAmount)))
+			return false;
+		return true;
 	}
 }

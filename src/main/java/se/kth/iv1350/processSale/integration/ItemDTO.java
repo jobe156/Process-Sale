@@ -1,7 +1,7 @@
 package se.kth.iv1350.processSale.integration;
 
+import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
-import se.kth.iv1350.processSale.util.ItemIdentifier;
 
 /**
  * 
@@ -15,7 +15,6 @@ public class ItemDTO {
 	private Amount itemPrice;
 	private String itemDescription; //consider switching types.
 	private double vatRate;	//consider creating VAT rate class.
-	
 	
 	/**
 	 * 
@@ -36,26 +35,41 @@ public class ItemDTO {
 	}
 	
 	public ItemIdentifier getItemIdentifier() {
-		ItemIdentifier itemIDCopy = new ItemIdentifier(itemID);
-		return itemIDCopy;
+		return new ItemIdentifier(itemID);
 	}
 	
 	public String getItemName() {
-		String itemNameCopy = new String(itemName);
-		return itemNameCopy;
+		return new String (itemName);
 	}
 	
 	public Amount getItemPrice() {
-		Amount itemPriceCopy = new Amount(itemPrice);
-		return itemPriceCopy;
+		return new Amount(itemPrice);
 	}
 	
 	public String getItemDescription() {
-		String itemDesctiptionCopy = new String(itemDescription);
-		return itemDescription;
+		return new String(itemDescription);
 	}
 	
 	public double getVatRate() {
 		return vatRate;
+	}
+	
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == null || !(getClass() == other.getClass()))
+			return false;
+		ItemDTO otherItemDTO = (ItemDTO) other;
+		if(!(itemID.equals(otherItemDTO.itemID)))
+			return false;
+		if(!(itemName.equals(otherItemDTO.itemName)))
+			return false;
+		if(!(itemPrice.equals(otherItemDTO.itemPrice)))
+			return false;
+		if(!(itemDescription.equals(otherItemDTO.itemDescription)))
+			return false;
+		if(vatRate != otherItemDTO.vatRate)
+			return false;
+		return true;
 	}
 }
