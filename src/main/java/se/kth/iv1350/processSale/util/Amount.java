@@ -47,13 +47,6 @@ public class Amount {
 			return false;
 		Amount otherAmount = (Amount) other;
 		return currentAmount == otherAmount.currentAmount;
-		/*
-		if(other != null && other instanceof Amount) {
-			Amount otherAmount = (Amount) other;
-			return currentAmount == otherAmount.currentAmount;
-		}
-		return false;
-		*/
 	}
 	
 	/**
@@ -84,6 +77,10 @@ public class Amount {
 		 return new Amount(currentAmount * multiple);
 	}
 	
+	/**
+	 * Creates a string of the amount with one deciaml and returns it.
+	 * @return the corresponding string of the amount.
+	 */
 	public String toString() {
 		String stringAmount = Double.toString(currentAmount);
 		int pointIndex = stringAmount.indexOf(".");

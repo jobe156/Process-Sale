@@ -38,6 +38,7 @@ class CashRegisterTest {
 		assertEquals(expResult, result, "incorrect value in register");	
 	}
 	
+	/*
 	@Test
 	public void testAddPaymentNullArg() {
 		CashRegister cashRegister = new CashRegister(); 
@@ -47,4 +48,5 @@ class CashRegisterTest {
 		Amount result = cashRegister.getAmountInRegister();
 		assertEquals(expResult, result, "adding null to the cash register increased the amount in it");
 	}
+	*/
 }

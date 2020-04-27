@@ -5,9 +5,7 @@ import se.kth.iv1350.processSale.integration.ItemDTO;
 
 import java.lang.StringBuilder;
 /**
- * 
  * Represent the item that is being bought and its quantity.
- *
  */
 public class Item {
 	private String itemName;
@@ -16,7 +14,7 @@ public class Item {
 	private double itemVAT;
 
 	/**
-	 * Creates an instance of the class.
+	 * Creates a new instance of a item from a <code>ItemDTO</code>.
 	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
@@ -27,7 +25,11 @@ public class Item {
 		this.itemVAT = itemDTO.getVatRate();
 	}
 	
-	
+	/**
+	 * Creates a new instance of a item from another <code>Item</code>.
+	 * 
+	 * @param itemDTO	Provides information about an item.
+	 */
 	public Item(Item item) {
 		this.itemName = item.itemName;
 		this.quantity = item.quantity;
@@ -35,34 +37,47 @@ public class Item {
 		this.itemVAT = item.itemVAT;
 	}
 	
+	/**
+	 * returns the item name.
+	 * @return	The item name.
+	 */
 	public String getItemName() {
 		return new String (itemName);
 	}
 	
+	/**
+	 * returns the quantity of the items. 
+	 * @return	The quantity of the items.
+	 */
 	public int getQuantity() {
 		return quantity;
 	}
 	
+	/**
+	 * Returns the item price.
+	 * @return	The item price.
+	 */
 	public Amount getItemPrice() {
 		return new Amount (itemPrice);
 	}
 	
+	/**
+	 * Returns the item vat rat.
+	 * @return	The item vat rat.
+	 */
 	public double getItemVat() {
 		return itemVAT;
 	}
 	
 	/**
-	 * increase the quantity of an item.
-	 * 
-	 * @Param quantity	Is how much the quantity will be increased.
-	 * 
+	 * increase the quantity of an item by one.
 	 */
 	public void increaseQuantity() {
 		this.quantity++;
 	}
 	
 	/**
-	 * Calculates the total price of on type of {@link item}.
+	 * Calculates the total price of one type of {@link item}.
 	 * 
 	 * @return	the <code>Amount</code> equal to the item price multiplied by its quantity.
 	 */
@@ -70,6 +85,10 @@ public class Item {
 		return new Amount(itemPrice).multiply(quantity);
 	}
 	
+	/**
+	 * Creates a string of the item and returns it.
+	 * @return the corresponding string of the item.
+	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(itemName);
@@ -80,6 +99,14 @@ public class Item {
 		return builder.toString();
 	}
 	
+	/**
+	 * Compares the current <code>Item</code> with a given to see if they are equal or not.
+	 * 
+	 * @param other A <code>Item</code> that the current one is compared with.
+	 * @return		returns <code>True</code> if the two <code>SaleLogDTO</code>s are equal and <code>false</code> 
+	 * 				if they are not. If the argument is null or not an instance of a <code>Item</code>, false 
+	 * 				is returned.
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if(other == null || !(getClass() == other.getClass()))

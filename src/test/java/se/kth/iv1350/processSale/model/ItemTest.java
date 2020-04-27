@@ -48,7 +48,7 @@ class ItemTest {
 		builder.append(breadItem.getItemName());
 		builder.append(" x ");
 		builder.append(Integer.toString(breadItem.getQuantity()));
-		builder.append(" ");
+		builder.append("\t");
 		builder.append(breadItem.getItemPrice().toString());
 		String expResult =  builder.toString();
 		String result = breadItem.toString();

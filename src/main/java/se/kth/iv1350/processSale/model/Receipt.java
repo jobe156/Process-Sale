@@ -11,7 +11,7 @@ public class Receipt {
 	public Receipt(SaleLogDTO saleLog) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Store name: \t"+ saleLog.getStoreName() + "\n");
-		builder.append("Store adress: \t" + saleLog.getStoreAdress() + "\n");
+		builder.append("Store adress: \t" + saleLog.getStoreAddress() + "\n");
 		builder.append("Time of sale: \t" + saleLog.getTimeOfSale().toString() + "\n");
 		builder.append("Bought items: \t" + "\n\n" );
 		for(Item item: saleLog.getItems()) 

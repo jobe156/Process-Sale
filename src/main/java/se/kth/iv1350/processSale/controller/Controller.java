@@ -5,7 +5,7 @@ import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.integration.RegistryCreator;
 import se.kth.iv1350.processSale.model.CashRegister;
-import se.kth.iv1350.processSale.model.DisplayTransactionDTO;
+import se.kth.iv1350.processSale.model.TransactionResultDTO;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
@@ -13,10 +13,7 @@ import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.util.Amount;
 
-
-
 /**
- * 
  *This Controller class is responsible for passing calls to the model and returning
  *values to the View.
  */
@@ -28,11 +25,9 @@ public class Controller {
 	private SaleInformationProvider SIProvider;
 
 	/**
+	 *Creates a new instance of a controller.
 	 * 
-	 *Creates an new instance of controller
-	 * 
-	 *@param	registryCreator Used for getting classes form the integration layer.
-	 *@param	SIProvider Used to provide information about the <code>Sale</code>.
+	 *@param SIProvider Provides information about the <code>Sale</code> that´s returned to the <code>View</code>.
 	 */
 	public Controller( SaleInformationProvider SIProvider){
 		RegistryCreator registryCreator = new RegistryCreator();
@@ -43,20 +38,19 @@ public class Controller {
 	}
 	
 	/**
-	 * Creates a new instance of a sale
+	 * Starts a new <code>Sale</code>.
 	 */
 	public void startSale() {
 		this.currentSale = new Sale();
 	}
 	
-	//problem with sale not being started and items beeing added.
-	
 	/**
-	 * Is used to add items to the current <code>sale</code>.
+	 * Add new items to the current <code>Sale</code> and returns a <code>ItemRegistraionDTO</code> containing
+	 * Information about the state of the current sale. Null will be returned if the <code>ItemIdentifier</code> 
+	 * argument is invalid or null.
 	 * 
-	 * @param itemID	used to find corresponding itemDTO.
-	 * @return			Information about the registered <code>Item</code> and <code>sale</code>.
-	 * 					returns null if the identifier is invalid.
+	 * @param itemID	used to find the corresponding itemDTO.
+	 * @return			Information about the registered <code>Item</code> and <code>sale</code>. 					
 	 */
 	public ItemRegistrationDTO registerItem(ItemIdentifier itemID) {
 		ItemDTO itemDTO = ISHandler.findItem(itemID);
@@ -65,12 +59,21 @@ public class Controller {
 		return itmRegDTO;
 	}
 	
-	public DisplayTransactionDTO processCashPayment(Amount paidAmount) {
+	/**
+	 * Process the <code>CashPayment</code> and finalize the sale by sending a <code>SaleLogDTO</code> to the 
+	 * <code>AccountingSystemHandler</code> and returns a <code>DisplayTransactionDTO</code> which contains information 
+	 * about the transaction. A <code>Receipt</code> containing information about the <code>Sale</code> and 
+	 * <code>CashPayment</code> is printed out.
+	 * 
+	 * @param paidAmount	The <code>Amount</code> paid. 
+	 * @return				Information about the <code>Sale</code> and <code>CashPayment</code>.
+	 */
+	public TransactionResultDTO processCashPayment(Amount paidAmount) {
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, currentSale);
 		SaleLogDTO saleLog = cashPayment.processPayment(currentSale);
 		ASHandler.addSaleLog(saleLog);
 		SIProvider.printReceipt(saleLog);
-		DisplayTransactionDTO disTraDto = SIProvider.generateDisplayTransactionDTO(saleLog);
-		return disTraDto;
+		TransactionResultDTO traResDto = SIProvider.generateTransactionResultDTO(saleLog);
+		return traResDto;
 	}
 }

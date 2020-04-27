@@ -5,15 +5,13 @@ import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 
 /**
- * 
  * Interface Used to communicate with <code>Controller</code>.
- *
  */
 public class View {
 	private Controller contrl;
 
 	/**
-	 * Creates an instance of the class.
+	 * Creates a new instance of controller.
 	 * 
 	 * @param contrl	Used to communicate with other applications.
 	 */
@@ -21,15 +19,28 @@ public class View {
 		this.contrl = contrl;
 	}	
 
+	/**
+	 * Is a test run of the program
+	 */
 	public void runFakeExecution() {
-		ItemIdentifier itemID1 = new ItemIdentifier("001");
-		ItemIdentifier itemID2 = new ItemIdentifier("002");
-		Amount paidAmount = new Amount(200);
+		String breadStringIdentifier = "001";
+		String appleStringIdentifier = "002";
+		String cerealStringIdentifier = "003";
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		ItemIdentifier appleItemID = new ItemIdentifier(appleStringIdentifier);
+		ItemIdentifier cerealItemID = new ItemIdentifier(cerealStringIdentifier);
+		double paidValue = 1000;
+		Amount paidAmount = new Amount(paidValue);
 		contrl.startSale();
 		System.out.println("New sale has started!");
 		System.out.println("\nItems are being scanned in\n");
-		System.out.println(contrl.registerItem(itemID1));
-		System.out.println(contrl.registerItem(itemID2));
+		System.out.println(contrl.registerItem(breadItemID));
+		System.out.println(contrl.registerItem(breadItemID));
+		System.out.println(contrl.registerItem(breadItemID));
+		System.out.println(contrl.registerItem(appleItemID));
+		System.out.println(contrl.registerItem(cerealItemID));
+		System.out.println(contrl.registerItem(cerealItemID));
+		System.out.println(contrl.registerItem(cerealItemID));
 		System.out.println("\nThe contents of the receipt:\n\n");
 		contrl.processCashPayment(paidAmount);
 	}

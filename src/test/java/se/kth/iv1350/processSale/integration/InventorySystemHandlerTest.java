@@ -17,9 +17,12 @@ class InventorySystemHandlerTest {
 	@BeforeEach
 	public void setUp() {
 		ISHandler = new InventorySystemHandler();
+		
 		Amount cerialItemPrice = new Amount(110);
 		ItemIdentifier cerialItemID = new ItemIdentifier("003");
 		cerialItemDTO = new ItemDTO(cerialItemID, "Cereal", cerialItemPrice, "It contains dried friut!", 0.10);
+
+		
 	}
 
 	@AfterEach

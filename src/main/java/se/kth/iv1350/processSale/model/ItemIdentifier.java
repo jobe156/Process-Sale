@@ -6,22 +6,21 @@ package se.kth.iv1350.processSale.model;
  *
  */
 public class ItemIdentifier {
-	private String stringIdentifier; //for now it´s a number like "0001"
+	private String stringIdentifier;
 	
 	/**
-	 * Creates an instance of anStringIdentifier. Currently theStringIdentifier is 
-	 * represented by a String.
+	 * Creates a new instance of a StringIdentifier. Currently theStringIdentifier is 
+	 * represented by a String. A exception is thrown if the argument is
+	 * null.
 	 * 
 	 * @paramStringIdentifier the string representing theStringIdentifier.
 	 */
-	
 	public ItemIdentifier(String stringIdentifier) {
-		//this.stringIdentifier = (stringIdentifier.isEmpty())?null:stringIdentifier;
 		this.stringIdentifier = stringIdentifier;
 	}
 	
 	/**
-	 * creates an instance of an identifer form an existing ItemStringIdentifier.
+	 * Creates an instance of an identifier form an existing ItemStringIdentifier.
 	 * 
 	 * @param itemIdentifier
 	 */
@@ -30,21 +29,18 @@ public class ItemIdentifier {
 	}
 	
 	/**
-	 * Check if twoStringIdentifiers are equal. 
+	 * Compares the current <code>ItemIdentifier</code> with a given to see if they are equal or not.
 	 * 
-	 * @param ItemID 	Used to identify and item.
-	 * @return			a boolean value.
+	 * @param other A <code>ItemIdentifier</code> that the current one is compared with.
+	 * @return		returns <code>True</code> if the two <code>ItemIdentifier</code>s are equal and <code>false</code> 
+	 * 				if they are not. If the argument is null or not an instance of a <code>ItemIdentifier</code>, false 
+	 * 				is returned.
 	 */
-	
 	@Override
 	public boolean equals(Object other){
 		if(other == null || !(other instanceof ItemIdentifier))
 			return false;
 		ItemIdentifier otherIdentifier = (ItemIdentifier) other;
 		return stringIdentifier.equals(otherIdentifier.stringIdentifier);
-	}
-	
-	public String getStringIdentifier() {
-		return new String (stringIdentifier);
 	}
 }

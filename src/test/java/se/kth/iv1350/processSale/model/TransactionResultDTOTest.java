@@ -8,7 +8,7 @@ import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.util.Amount;
 
-class DisplayTransactionDTOTest {
+class TransactionResultDTOTest {
 
 	@Test
 	public void testToString() {
@@ -21,7 +21,7 @@ class DisplayTransactionDTOTest {
 		sale.addItem(itemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
-		DisplayTransactionDTO disTraDto = new DisplayTransactionDTO(saleLog);
+		TransactionResultDTO disTraDto = new TransactionResultDTO(saleLog);
 		StringBuilder builder = new StringBuilder();
 		builder.append("Total price: \t" + sale.CalculateFinalPrice().toString() + "\n");
 		builder.append("Amount paid: \t" + paidAmount.toString() + "\n");

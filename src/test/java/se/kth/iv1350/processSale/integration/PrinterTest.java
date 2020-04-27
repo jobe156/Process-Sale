@@ -51,16 +51,16 @@ class PrinterTest {
 		printer.printReceipt(receipt);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append("Store name: "+ saleLog.getStoreName());
-		builder.append("Store adress: " + saleLog.getStoreAdress() + "/n");
-		builder.append("Time of sale: " + saleLog.getTimeOfSale().toString() + "/n");
-		builder.append("Bought items: " + "/n" );
+		builder.append("Store name: \t"+ saleLog.getStoreName() + "\n");
+		builder.append("Store adress: \t" + saleLog.getStoreAddress() + "\n");
+		builder.append("Time of sale: \t" + saleLog.getTimeOfSale().toString() + "\n");
+		builder.append("Bought items: \t" + "\n\n" );
 		for(Item item: saleLog.getItems()) 
-			builder.append(item.toString() + "/n");
-		builder.append("/nTotalVatRate: " + String.valueOf(saleLog.getTotalVatRate()) + "/n");
-		builder.append("Total price: " + saleLog.getTotalPrice().toString() + "/n");
-		builder.append("Paid amount: " + saleLog.getPaidAmount().toString() + "/n");
-		builder.append("Total price: " + saleLog.getChange().toString() + "/n");
+			builder.append(item.toString() + "\n");
+		builder.append("\nTotalVatRate: \t" + String.valueOf(saleLog.getTotalVatRate()) + "\n");
+		builder.append("Total price: \t" + saleLog.getTotalPrice().toString() + "\n");
+		builder.append("Paid amount: \t" + saleLog.getPaidAmount().toString() + "\n");
+		builder.append("Change: \t" + saleLog.getChange().toString() + "\n");
 		
 		String expResult = builder.toString();
 		String result = outContent.toString();
