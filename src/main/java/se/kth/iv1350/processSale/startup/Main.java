@@ -21,9 +21,6 @@ public class Main {
 			SaleInformationProvider SIProvider = new SaleInformationProvider(printer);
 			Controller controller = new Controller( SIProvider);
 			View view = new View(controller);
-			
 			view.runFakeExecution();
 		}
-		
-
 }

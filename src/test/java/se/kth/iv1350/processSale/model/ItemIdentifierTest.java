@@ -19,22 +19,6 @@ class ItemIdentifierTest {
 	public void tearDown() {
 		itemID1 = null;
 	}
-	
-	/*
-	@Test
-	public void testStringCunstructor() {
-		String stringIdentifier = "001";
-		ItemIdentifier result = new ItemIdentifier(stringIdentifier);
-		assertNotNull(result, "Valid argument gave a null identifer");
-	}
-	
-	@Test
-	public void testConstructerEmptyStringArg() {
-		String stringIdentifier = "";
-		ItemIdentifier result = new ItemIdentifier(stringIdentifier);
-		assertNull(result, "Empty string argument gave a valid identifer"); 
-	}
-	*/
 
 	@Test
 	public void testEqualIdentifiers() {

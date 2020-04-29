@@ -23,9 +23,15 @@ class SaleInformationProviderTest {
 		printer = new Printer();
 		SIProvider = new SaleInformationProvider(printer);
 		sale = new Sale();
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		breadItemDTO = new ItemDTO(itemID, "Bread", itemPrice, "It´s whole grain!", 0.1);
+		
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It´s whole grain!";
+		double breadItemVat = 0.1;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 	}
 
 	@AfterEach
@@ -47,8 +53,8 @@ class SaleInformationProviderTest {
 		assertEquals(expResult.getItemPrice(), result.getItemPrice(), "Wrong item price.");
 		assertEquals(expResult.getRunningTotal(), result.getRunningTotal(), "Wrong item running total.");
 	}
+
 	
-	/*
 	@Test
 	public void testGenerateItemRegistrationDTONullItemDTO() {
 		ItemDTO nullItemDTO = null;
@@ -56,10 +62,23 @@ class SaleInformationProviderTest {
 		ItemRegistrationDTO resultItmRegDto = SIProvider.generateItemRegistrationDTO(sale, nullItemDTO);
 		assertNull(resultItmRegDto, "ItemDTO is null");
 	}
-	*/
+	
+	@Test
+	public void  testGenerateTransactionResultDTOSalePar() {
+		TransactionResultDTO expResult = new TransactionResultDTO(sale);
+		TransactionResultDTO result = SIProvider.generateTransactionResultDTO(sale);
+		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
+	}
+	
+	@Test
+	public void testGenerateTransactionResultDTOSaleParNullArg() {
+		Sale nullSale = null;
+		TransactionResultDTO result = SIProvider.generateTransactionResultDTO(nullSale);
+		assertNull(result, "null argument generated a sale Log");
+	}
 
 	@Test
-	public void testGenerateTransactionResultDTO() {
+	public void testGenerateTransactionResultDTOSaleLogPar() {
 		sale.addItem(breadItemDTO);
 		CashRegister cashRegister = new CashRegister();
 		Amount amountPaid = new Amount(200);
@@ -72,13 +91,13 @@ class SaleInformationProviderTest {
 		assertEquals(expResult.getChange(), result.getChange(), "invalid change");
 	}
 
-	/*
+	
 	@Test
-	public void testGenerateTransactionResultDTONullArg() {
+	public void testGenerateTransactionResultDTOSaleLogParNullArg() {
 		SaleLogDTO nullSaleLog = null;
-		DisplayTransactionDTO result = SIProvider.generateDisplayTransactionDTO(nullSaleLog);
+		TransactionResultDTO result = SIProvider.generateTransactionResultDTO(nullSaleLog);
 		assertNull(result, "null argument generated a sale Log");
 	}
-	*/
+	
 
 }

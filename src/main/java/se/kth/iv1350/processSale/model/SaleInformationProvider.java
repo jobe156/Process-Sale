@@ -27,12 +27,23 @@ public class SaleInformationProvider {
 	 * 						null is returned.
 	 */
 	public ItemRegistrationDTO generateItemRegistrationDTO(Sale currentSale, ItemDTO itemDTO){
-		//if(itemDTO != null) {
-			Amount totalPrice = currentSale.CalculateFinalPrice();		
-			ItemRegistrationDTO itmRegDto = new ItemRegistrationDTO(itemDTO, totalPrice);
-			return itmRegDto;
-		//}
-		//return null;
+		if(itemDTO == null) 
+			return null;
+		Amount totalPrice = currentSale.CalculateFinalPrice();		
+		ItemRegistrationDTO itmRegDto = new ItemRegistrationDTO(itemDTO, totalPrice);
+		return itmRegDto;
+	}
+	
+	/**
+	 * Is used to Only show the final price of the current <code>sale</code>.
+	 * 
+	 * @param currentSale	the current <sale>.
+	 * @return				Information about the total cost of the <code>sale</code>.
+	 */
+	public TransactionResultDTO generateTransactionResultDTO (Sale currentSale) {
+		if(currentSale == null)
+			return null;
+		return new TransactionResultDTO (currentSale);
 	}
 	
 	/**
@@ -44,8 +55,8 @@ public class SaleInformationProvider {
 	 * 					is null, a  exception is thrown and null is returned.  
 	 */
 	public TransactionResultDTO generateTransactionResultDTO (SaleLogDTO saleLog) {
-		//if(saleLog == null)
-			//return null;
+		if(saleLog == null)
+			return null;
 		TransactionResultDTO traResDto = new TransactionResultDTO(saleLog);
 		return traResDto;
 	}
@@ -56,6 +67,8 @@ public class SaleInformationProvider {
 	 * @param saleLog	provides information for the receipt.
 	 */
 	public void printReceipt(SaleLogDTO saleLog) {
+		if(saleLog == null)
+			return;
 		Receipt receipt = new Receipt(saleLog);
 		printer.printReceipt(receipt);
 	}	

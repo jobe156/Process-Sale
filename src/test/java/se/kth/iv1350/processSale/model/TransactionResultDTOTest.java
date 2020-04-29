@@ -14,11 +14,16 @@ class TransactionResultDTOTest {
 	public void testToString() {
 		CashRegister cashRegister = new CashRegister();
 		Amount paidAmount= new Amount(200);
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		ItemDTO itemDTO = new ItemDTO(itemID, "Bread",itemPrice, "It´s whole grain!", 0.20);
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It´s whole grain!";
+		double breadItemVat = 0;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		Sale sale = new Sale();
-		sale.addItem(itemDTO);
+		sale.addItem(breadItemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
 		TransactionResultDTO disTraDto = new TransactionResultDTO(saleLog);
@@ -26,6 +31,26 @@ class TransactionResultDTOTest {
 		builder.append("Total price: \t" + sale.CalculateFinalPrice().toString() + "\n");
 		builder.append("Amount paid: \t" + paidAmount.toString() + "\n");
 		builder.append("Change: \t" + cashPayment.getChange().toString() + "\n");
+		String expResult = builder.toString();
+		String result = disTraDto.toString();
+		assertEquals(expResult, result, "String was not correctly made");
+	}
+	
+	@Test
+	public void testToStringOnlyTotalAmount() {
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It´s whole grain!";
+		double breadItemVat = 0;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
+		Sale sale = new Sale();
+		sale.addItem(breadItemDTO);
+		TransactionResultDTO disTraDto = new TransactionResultDTO(sale);
+		StringBuilder builder = new StringBuilder();
+		builder.append("Total price: \t" + sale.CalculateFinalPrice().toString() + "\n");
 		String expResult = builder.toString();
 		String result = disTraDto.toString();
 		assertEquals(expResult, result, "String was not correctly made");

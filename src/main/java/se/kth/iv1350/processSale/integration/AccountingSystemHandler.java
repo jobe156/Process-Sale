@@ -36,7 +36,7 @@ public class AccountingSystemHandler {
 	 * @param items		The sought after <code>Item</code>s in a sale log. 
 	 * @return			The sale log with the same Items.	
 	 */
-	public SaleLogDTO findSalLogByBoughtItems( List<Item> items) {
+	public SaleLogDTO findSalLogByBoughtItems(List<Item> items) {
 		for(SaleLogDTO saleLog: saleLogs) {
 			if(saleLog.getItems().size() == items.size())
 				for(int i = 0; i < items.size(); i++) {

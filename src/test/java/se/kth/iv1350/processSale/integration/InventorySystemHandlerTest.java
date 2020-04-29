@@ -12,42 +12,49 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InventorySystemHandlerTest {
 	private InventorySystemHandler ISHandler;
-	private ItemDTO cerialItemDTO;
+	private ItemDTO cerealItemDTO;
 
 	@BeforeEach
 	public void setUp() {
 		ISHandler = new InventorySystemHandler();
 		
-		Amount cerialItemPrice = new Amount(110);
-		ItemIdentifier cerialItemID = new ItemIdentifier("003");
-		cerialItemDTO = new ItemDTO(cerialItemID, "Cereal", cerialItemPrice, "It contains dried friut!", 0.10);
-
+		String cerealStringIdentifier = "003";
+		double cerealItemValue = 110;
+		String cerealItemName = "Cereal";
+		String cerealItemDescription = "It contains dried friut!";
+		double cerealItemVat = 0.10;
+		Amount cerealItemPrice = new Amount(cerealItemValue);
+		ItemIdentifier cerealItemID = new ItemIdentifier(cerealStringIdentifier);
+		cerealItemDTO = new ItemDTO(cerealItemID, cerealItemName, cerealItemPrice, cerealItemDescription, cerealItemVat);
 		
 	}
 
 	@AfterEach
 	public void tearDown() {
 		ISHandler = null;
-		cerialItemDTO = null;
+		cerealItemDTO = null;
 	}
 
 	@Test
 	public void testFindItem() {
-		ItemIdentifier cerialItemID = new ItemIdentifier("003");
+		String cerialStringIdentifier = "003";
+		ItemIdentifier cerialItemID = new ItemIdentifier(cerialStringIdentifier);
 		ItemDTO result = ISHandler.findItem(cerialItemID);
-		assertEquals(cerialItemDTO, result, "Wrong itemDTO was found");
+		assertEquals(cerealItemDTO, result, "Wrong itemDTO was found");
 	}
 	
 	@Test
 	public void testFindItemwrongItemID() {
-		ItemIdentifier breadItemID = new ItemIdentifier("001");
+		String breadStringIdentifier = "001";
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
 		ItemDTO result = ISHandler.findItem(breadItemID);
-		assertFalse(result.equals(cerialItemDTO), "diffrent ItemIDs return the same ItemDTO");
+		assertFalse(result.equals(cerealItemDTO), "diffrent ItemIDs return the same ItemDTO");
 	}
 	
 	@Test
 	public void testFindItemInvalidItemID() {
-		ItemIdentifier invalidItemID = new ItemIdentifier("üüü");
+		String invalidStrinIdentifier = "üüü";
+		ItemIdentifier invalidItemID = new ItemIdentifier(invalidStrinIdentifier);
 		ItemDTO result = ISHandler.findItem(invalidItemID);
 		assertNull( result, "ItemID was Invalid and itemDTO was found");
 	}
@@ -58,27 +65,4 @@ class InventorySystemHandlerTest {
 		ItemDTO result = ISHandler.findItem(nullItemID);
 		assertNull(result, "ItemID was null and itemDTO was found");
 	}
-	
-	/*
-	@Test
-	public void testItemIsFound() {
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		ItemDTO result = ISHandler.findItem(itemID);
-		assertNotNull(result, "validItemIdentifier returns null value");
-	}
-	
-	@Test
-	public void testNullArgument() {
-		ItemIdentifier nullItemID = null;
-		ItemDTO result = ISHandler.findItem(nullItemID);
-		assertNull(result, "null ItemIdentifier argument returns a itemDTO");
-	}
-
-	@Test
-	public void testItemIsNotFound() {
-		ItemIdentifier itemID = new ItemIdentifier("£#ü");
-		ItemDTO result = ISHandler.findItem(itemID);
-		assertNull(result, "invalid identifier does´t return a null value");
-	}
-	*/
 }

@@ -85,8 +85,12 @@ public class Amount {
 		String stringAmount = Double.toString(currentAmount);
 		int pointIndex = stringAmount.indexOf(".");
 		StringBuilder builder = new StringBuilder();
-		for(int i = 0; i < pointIndex+2; i++) {
-				builder.append(stringAmount.charAt(i));
+		for(int i = 0; i <= pointIndex + 2; i++) {
+			if(i > stringAmount.length()-1)
+				builder.append('0');
+			else {
+			builder.append(stringAmount.charAt(i));
+			}
 		}
 		return builder.toString();
 	}

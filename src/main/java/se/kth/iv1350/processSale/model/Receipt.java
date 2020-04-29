@@ -7,7 +7,6 @@ import java.lang.StringBuilder;
 public class Receipt {
 	private String receiptString;
 	
-
 	public Receipt(SaleLogDTO saleLog) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Store name: \t"+ saleLog.getStoreName() + "\n");
@@ -16,7 +15,7 @@ public class Receipt {
 		builder.append("Bought items: \t" + "\n\n" );
 		for(Item item: saleLog.getItems()) 
 			builder.append(item.toString() + "\n");
-		builder.append("\nTotalVatRate: \t" + String.valueOf(saleLog.getTotalVatRate()) + "\n");
+		builder.append("\nTotalVatAmount:\t" + String.valueOf(saleLog.getTotalVatAmount()) + "\n");
 		builder.append("Total price: \t" + saleLog.getTotalPrice().toString() + "\n");
 		builder.append("Paid amount: \t" + saleLog.getPaidAmount().toString() + "\n");
 		builder.append("Change: \t" + saleLog.getChange().toString() + "\n");

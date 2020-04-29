@@ -14,23 +14,37 @@ class SaleTest {
 	private Sale sale;
 	private ItemDTO breadItemDTO;
 	private ItemDTO appleItemDTO;
-	private ItemDTO cerialItemDTO;
+	private ItemDTO cerealItemDTO;
 
 	@BeforeEach
 	public void setUp() {
 		sale = new Sale();
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It큦 whole grain!";
+		double breadItemVat = 0.1;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
+
+		String appleStringIdentifier = "002";
+		double appleItemValue = 74;
+		String appleItemName = "Apple";
+		String appleItemDescription = "It큦 a fruit!";
+		double appleItemVat = 0.30;
+		Amount appleItemPrice = new Amount(appleItemValue);
+		ItemIdentifier appleItemID = new ItemIdentifier(appleStringIdentifier);
+		appleItemDTO = new ItemDTO(appleItemID, appleItemName, appleItemPrice, appleItemDescription, appleItemVat);
 		
-		Amount breadItemPrice = new Amount(50);
-		ItemIdentifier breadItemID = new ItemIdentifier("001");
-		breadItemDTO = new ItemDTO(breadItemID, "Bread", breadItemPrice, "It큦 whole grain!", 0.1);
-		
-		Amount appleItemPrice = new Amount(74);
-		ItemIdentifier appleItemID = new ItemIdentifier("002");
-		appleItemDTO = new ItemDTO(appleItemID, "Apple",appleItemPrice, "It큦 a fruit!", 0.30);
-		
-		Amount cerialItemPrice = new Amount(110);
-		ItemIdentifier cerialItemID = new ItemIdentifier("003");
-		cerialItemDTO = new ItemDTO(cerialItemID, "Cereal",cerialItemPrice, "It contains dried friut!", 0.10);
+		String cerealStringIdentifier = "003";
+		double cerealItemValue = 110;
+		String cerealItemName = "Cereal";
+		String cerealItemDescription = "It contains dried friut!";
+		double cerealItemVat = 0.10;
+		Amount cerealItemPrice = new Amount(cerealItemValue);
+		ItemIdentifier cerealItemID = new ItemIdentifier(cerealStringIdentifier);
+		cerealItemDTO = new ItemDTO(cerealItemID, cerealItemName, cerealItemPrice, cerealItemDescription, cerealItemVat);;
 	}
 
 	@AfterEach
@@ -38,7 +52,7 @@ class SaleTest {
 		sale = null;
 		breadItemDTO = null;
 		appleItemDTO = null;
-		cerialItemDTO = null;
+		cerealItemDTO = null;
 	}
 	
 	@Test
@@ -60,14 +74,14 @@ class SaleTest {
 	public void testAddDiffrentItems() {
 		Item breadItem = new Item(breadItemDTO);
 		Item appleItem = new Item(appleItemDTO);
-		Item cerialItem = new Item(cerialItemDTO);
+		Item cerialItem = new Item(cerealItemDTO);
 		List<Item> expResult = new ArrayList<>();
 		expResult.add(breadItem);
 		expResult.add(appleItem);
 		expResult.add(cerialItem);
 		sale.addItem(breadItemDTO);
 		sale.addItem(appleItemDTO);
-		sale.addItem(cerialItemDTO);
+		sale.addItem(cerealItemDTO);
 		List<Item> result = sale.getItems();
 		for(int i = 0; i < result.size(); i++) {
 			assertEquals(expResult.get(i).getItemName(), result.get(i).getItemName(), "Items in sale has incorrect names");
@@ -106,8 +120,8 @@ class SaleTest {
 	
 	@Test
 	public void testCalculatefinalPrice() {
-		double totalVat = 1 + breadItemDTO.getVatRate();
-		Amount expResult = breadItemDTO.getItemPrice().multiply(totalVat);
+		Amount amount = new Amount (breadItemDTO.getItemPrice());
+		Amount expResult = new Amount(amount.add(breadItemDTO.getItemPrice().multiply(breadItemDTO.getVatRate())));
 		sale.addItem(breadItemDTO);
 		Amount result = sale.CalculateFinalPrice();
 		assertEquals(expResult, result, "the total price of the sale was not successful calculated ");
@@ -120,28 +134,4 @@ class SaleTest {
 			assertEquals(expResult, result, "the total price of the sale was not successful calculated ");
 	}
 	
-	@Test
-	public void testGetTotalNumberOfItems() {
-		Item breadItem = new Item(breadItemDTO);
-		Item cerialItem = new Item(cerialItemDTO);
-		List<Item> itemList = new ArrayList<>();
-		for(int i = 0; i < 5; i++) {
-			itemList.add(breadItem);
-			itemList.add(cerialItem);
-			sale.addItem(breadItemDTO);
-			sale.addItem(cerialItemDTO);
-		}
-		int expResult = 0;
-		for(Item item: itemList)
-			expResult += item.getQuantity();
-		int result = sale.getTotalNumberOfItems();
-		assertEquals(expResult, result, "total number of items is not correct");
-	}
-	
-	@Test
-	public void testGetTotalNumberOfItemsZeroItems() {
-		int expResult = 0;
-		int result = sale.getTotalNumberOfItems();
-		assertEquals(expResult, result, "total number of items is not correct");
-	}
 }

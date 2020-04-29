@@ -18,7 +18,7 @@ public class Item {
 	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
-	public Item(ItemDTO itemDTO) {
+	Item(ItemDTO itemDTO) {
 		this.itemName = itemDTO.getItemName();
 		this.quantity = 1;
 		this.itemPrice = itemDTO.getItemPrice();
@@ -30,7 +30,7 @@ public class Item {
 	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
-	public Item(Item item) {
+	Item(Item item) {
 		this.itemName = item.itemName;
 		this.quantity = item.quantity;
 		this.itemPrice = item.itemPrice;
@@ -86,6 +86,14 @@ public class Item {
 	}
 	
 	/**
+	 * returns the total vat amount of the items.
+	 * @return	the total vat amount of the items.
+	 */
+	public Amount totalItemVatPrice() {
+		return new Amount (this.totalItemPrice().multiply(itemVAT));
+	}
+	
+	/**
 	 * Creates a string of the item and returns it.
 	 * @return the corresponding string of the item.
 	 */
@@ -95,7 +103,7 @@ public class Item {
 		builder.append( " x ");
 		builder.append(Integer.toString(quantity));
 		builder.append("\t");
-		builder.append(itemPrice.toString());
+		builder.append(itemPrice.add(itemPrice.multiply(itemVAT)).toString());
 		return builder.toString();
 	}
 	

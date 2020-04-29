@@ -17,7 +17,7 @@ public class SaleLogDTO {
 	private String storeAddress;
 	private LocalTime localTime;
 	private List<Item> items;
-	private double totalVatRate = 0;
+	private Amount totalVatAmount = new Amount();
 	private Amount totalPrice;
 	private Amount paidAmount;
 	private Amount change;
@@ -35,7 +35,7 @@ public class SaleLogDTO {
 		this.items = currentSale.getItems();
 		this.totalPrice = currentSale.CalculateFinalPrice();
 		for(Item item: items)
-			this.totalVatRate += item.getItemVat();
+			this.totalVatAmount = this.totalVatAmount.add(item.totalItemVatPrice());
 		this.change = cPayment.getChange();
 		this.paidAmount = cPayment.getAmountPaid();
 	}
@@ -78,8 +78,8 @@ public class SaleLogDTO {
 	 * Returns the total vat rate.
 	 * @return The total vat rate.
 	 */
-	public double getTotalVatRate() {
-		return totalVatRate;
+	public Amount getTotalVatAmount() {
+		return new Amount(totalVatAmount);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class SaleLogDTO {
 		
 		if(!(totalPrice.equals(otherSaleLogDTO.totalPrice)))
 			return false;		
-		if(totalVatRate != otherSaleLogDTO.totalVatRate)
+		if(!( totalVatAmount.equals(otherSaleLogDTO.totalVatAmount)))
 			return false;
 		if(!(change.equals(otherSaleLogDTO.change)))
 			return false;

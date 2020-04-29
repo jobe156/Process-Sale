@@ -14,24 +14,29 @@ import se.kth.iv1350.processSale.util.Amount;
 
 class SaleLogDTOTest {
 	private SaleLogDTO saleLog1;
-	private ItemDTO itemDTO1;
-	private ItemDTO itemDTO2;
+	private ItemDTO breadItemDTO;
+	private ItemDTO appleItemDTO;
 	
 	@BeforeEach
 	public void startUp() {
 		CashRegister cashRegister = new CashRegister();
 		Amount paidAmount= new Amount(200);
 		
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		itemDTO1 = new ItemDTO(itemID, "Bread",itemPrice, "It큦 whole grain!", 0.20);
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It큦 whole grain!";
+		double breadItemVat = 0.20;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		
 		Amount itemPrice2 = new Amount(74);
 		ItemIdentifier itemID2 = new ItemIdentifier("002");
-		itemDTO2 = new ItemDTO(itemID2, "Apple",itemPrice2, "It큦 a fruit!", 0.30);
+		appleItemDTO = new ItemDTO(itemID2, "Apple",itemPrice2, "It큦 a fruit!", 0.30);
 		
 		Sale sale = new Sale();
-		sale.addItem(itemDTO1);
+		sale.addItem(breadItemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		saleLog1 = new SaleLogDTO(sale, cashPayment);
 	}
@@ -39,22 +44,26 @@ class SaleLogDTOTest {
 	@AfterEach
 	public void tearDown() {
 		saleLog1 = null;
-		itemDTO1 = null;
-		itemDTO2 = null;
-		
+		breadItemDTO = null;
+		appleItemDTO = null;
 	}
-
+	
 	@Test
 	public void testEqual() {
 		CashRegister cashRegister = new CashRegister();
-		Amount paidAmount= new Amount(200);
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		ItemDTO itemDTO = new ItemDTO(itemID, "Bread",itemPrice, "It큦 whole grain!", 0.20);
+		double paidValue = 200;
+		Amount paidAmount= new Amount(paidValue);
+		double itemValue = 50;
+		Amount itemPrice = new Amount(itemValue);
+		String stringIdentifier = "001";
+		ItemIdentifier itemID = new ItemIdentifier(stringIdentifier);
+		String itemName = "Bread";
+		String itemDescription = "It큦 whole grain!";
+		double itemVat = 0.20;
+		ItemDTO itemDTO = new ItemDTO(itemID, itemName,itemPrice, itemDescription, itemVat);
 		Sale sale = new Sale();
 		sale.addItem(itemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
-		
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
 		boolean expResult = true;
 		boolean result = saleLog1.equals(saleLog);
@@ -64,9 +73,10 @@ class SaleLogDTOTest {
 	@Test
 	public void testNotEqual() {
 		CashRegister cashRegister = new CashRegister();
-		Amount paidAmount= new Amount(250);
+		double paidValue = 250;
+		Amount paidAmount= new Amount(paidValue);
 		Sale sale = new Sale();
-		sale.addItem(itemDTO2);
+		sale.addItem(appleItemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
 		boolean expResult = false;
@@ -77,9 +87,10 @@ class SaleLogDTOTest {
 	@Test
 	public void testNotEqualItems() {
 		CashRegister cashRegister = new CashRegister();
-		Amount paidAmount= new Amount(200);
+		double paidValue = 250;
+		Amount paidAmount= new Amount(paidValue);
 		Sale sale = new Sale();
-		sale.addItem(itemDTO2);
+		sale.addItem(appleItemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
 		boolean expResult = false;
@@ -90,30 +101,14 @@ class SaleLogDTOTest {
 	@Test
 	public void testNotEqualAmountPaid() {
 		CashRegister cashRegister = new CashRegister();
-		Amount paidAmount= new Amount(500);
+		double paidValue = 500;
+		Amount paidAmount= new Amount(paidValue);
 		Sale sale = new Sale();
-		sale.addItem(itemDTO1);
+		sale.addItem(breadItemDTO);
 		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
 		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
 		boolean expResult = false;
 		boolean result = saleLog1.equals(saleLog);
 		assertEquals(expResult, result, "invalid amount paid");
-	}
-	
-	@Test
-	public void testSaleLogDTOCustructorVatRate() {
-		CashRegister cashRegister = new CashRegister();
-		Amount paidAmount= new Amount(200);
-		Sale sale = new Sale();
-		sale.addItem(itemDTO1);
-		sale.addItem(itemDTO2);
-		CashPayment cashPayment = new CashPayment(paidAmount, cashRegister, sale);
-		SaleLogDTO saleLog = new SaleLogDTO(sale, cashPayment);
-		double vatRate1 = itemDTO1.getVatRate();
-		double vatRate2 = itemDTO2.getVatRate();
-		double totalVatRate = vatRate1 + vatRate2;
-		double expResult = totalVatRate;
-		double result =  saleLog.getTotalVatRate();
-		assertEquals(expResult, result, "incorect VAT rate"); 
 	}
 }

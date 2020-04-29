@@ -25,7 +25,7 @@ public class CashRegister {
 	 * 					in the <code>Sale</code>.
 	 */
 	public void addPayment(Amount amount) {
-		//if(amount != null)
+		if(amount != null)
 		amntInReg = amntInReg.add(amount);
 	}
 	

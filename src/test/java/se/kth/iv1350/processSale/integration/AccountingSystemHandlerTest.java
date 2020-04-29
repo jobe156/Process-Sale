@@ -18,12 +18,18 @@ class AccountingSystemHandlerTest {
 	@Test
 	public void testAddSaleLog() {
 		Sale sale = new Sale();
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		ItemDTO breadItemDTO = new ItemDTO(itemID, "Bread", itemPrice, "It´s whole grain!", 0.1);
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It´s whole grain!";
+		double breadItemVat = 0;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		sale.addItem(breadItemDTO);
 		CashRegister cashRegister = new CashRegister();
-		Amount amountPaid = new Amount(200);
+		double paidValue = 200;
+		Amount amountPaid = new Amount(paidValue);
 		CashPayment cashPayment= new CashPayment(amountPaid, cashRegister, sale);
 		SaleLogDTO saleLog = cashPayment.processPayment(sale);
 		AccountingSystemHandler ASHandler = new AccountingSystemHandler();
@@ -31,6 +37,6 @@ class AccountingSystemHandlerTest {
 		SaleLogDTO expResult = new SaleLogDTO(sale, cashPayment);
 		SaleLogDTO result = ASHandler.findSalLogByBoughtItems(sale.getItems());
 		assertEquals(expResult, result, "invalid sale logs");
-		
 	}
+	
 }

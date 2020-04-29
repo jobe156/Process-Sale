@@ -17,7 +17,7 @@ public class Sale {
 	private LocalTime localTime;
 	private String storeName;
 	private String storeAddress;
-	private List<Item> items= new ArrayList<>();
+	private List<Item> items = new ArrayList<>();
 
 	/**
 	 * Creates a new instance of a sale which sets the time and date.
@@ -86,26 +86,13 @@ public class Sale {
 	 */
 	public Amount CalculateFinalPrice() {
 		Amount totalPrice = new Amount();
-		double totalVatRate = 1;
 		if (!items.isEmpty()) {
 			for (Item currentItem : items) {
 				totalPrice = totalPrice.add(currentItem.totalItemPrice());
-				totalVatRate += currentItem.getItemVat();
+				totalPrice = totalPrice.add(currentItem.totalItemVatPrice());
 			}
 		}
-		return totalPrice.multiply(totalVatRate);
+		return totalPrice;
 	}
 	
-	/**
-	 * gets the sum of the quantities of all items.
-	 * 
-	 * @return	the total number of items.
-	 */
-	public int getTotalNumberOfItems() {
-		int totalNumberOfItems = 0;
-		for(Item item: items) 
-			totalNumberOfItems += item.getQuantity();
-		
-		return totalNumberOfItems;
-	}
 }

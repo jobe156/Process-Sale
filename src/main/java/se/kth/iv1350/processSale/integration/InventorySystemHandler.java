@@ -28,7 +28,7 @@ public class InventorySystemHandler {
 		double breadItemValue = 50;
 		String breadItemName = "Bread";
 		String breadItemDescription = "It´s whole grain!";
-		double breadItemVat = 0;
+		double breadItemVat = 0.0;
 		Amount breadItemPrice = new Amount(breadItemValue);
 		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
 		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
@@ -38,7 +38,7 @@ public class InventorySystemHandler {
 		double appleItemValue = 74;
 		String appleItemName = "Apple";
 		String appleItemDescription = "It´s a fruit!";
-		double appleItemVat = 0.30;
+		double appleItemVat = 0.3;
 		Amount appleItemPrice = new Amount(appleItemValue);
 		ItemIdentifier appleItemID = new ItemIdentifier(appleStringIdentifier);
 		ItemDTO appleItemDTO = new ItemDTO(appleItemID, appleItemName, appleItemPrice, appleItemDescription, appleItemVat);
@@ -48,7 +48,7 @@ public class InventorySystemHandler {
 		double cerealItemValue = 110;
 		String cerealItemName = "Cereal";
 		String cerealItemDescription = "It contains dried friut!";
-		double cerealItemVat = 0.10;
+		double cerealItemVat = 0.1;
 		Amount cerealItemPrice = new Amount(cerealItemValue);
 		ItemIdentifier cerealItemID = new ItemIdentifier(cerealStringIdentifier);
 		ItemDTO cerealItemDTO = new ItemDTO(cerealItemID, cerealItemName, cerealItemPrice, cerealItemDescription, cerealItemVat);
@@ -63,7 +63,7 @@ public class InventorySystemHandler {
 	 * @return			the searched <code>ItemDTO</code> or null.
 	 */
 	public ItemDTO findItem(ItemIdentifier itemID) {
-		//if(itemID != null)
+		if(itemID != null)
 			for(ItemDTO itemDTO: items)
 				if( itemDTO.getItemIdentifier().equals(itemID))
 					return itemDTO;

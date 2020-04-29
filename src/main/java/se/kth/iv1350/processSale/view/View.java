@@ -2,6 +2,7 @@ package se.kth.iv1350.processSale.view;
 
 import se.kth.iv1350.processSale.controller.Controller;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
+import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.util.Amount;
 
 /**
@@ -34,13 +35,17 @@ public class View {
 		contrl.startSale();
 		System.out.println("New sale has started!");
 		System.out.println("\nItems are being scanned in\n");
-		System.out.println(contrl.registerItem(breadItemID));
-		System.out.println(contrl.registerItem(breadItemID));
-		System.out.println(contrl.registerItem(breadItemID));
+		
+		for(int i = 0 ; i < 3; i++)
+			System.out.println(contrl.registerItem(breadItemID));
+
 		System.out.println(contrl.registerItem(appleItemID));
-		System.out.println(contrl.registerItem(cerealItemID));
-		System.out.println(contrl.registerItem(cerealItemID));
-		System.out.println(contrl.registerItem(cerealItemID));
+		
+		for(int i =0; i < 2; i++)
+			System.out.println(contrl.registerItem(cerealItemID));
+		
+		System.out.println(contrl.endSale());
+		
 		System.out.println("\nThe contents of the receipt:\n\n");
 		contrl.processCashPayment(paidAmount);
 	}

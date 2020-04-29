@@ -14,7 +14,8 @@ public class CashPayment {
 	private CashRegister cashRegister;
 	
 	/**
-	 * Creates a new instance of a cash payment.
+	 * Creates a new instance of a cash payment. if amountPaid or currentSale arguments are null
+	 * change will be given a value of -1.
 	 * 
 	 * @param amountPaid	The <code>amount</code> paid in cash.
 	 * @param cashRegister	The <code>cashRegister</code> that keeps track of the physical 
@@ -24,7 +25,8 @@ public class CashPayment {
 	public CashPayment(Amount amountPaid, CashRegister cashRegister, Sale currentSale) {			
 		this.cashRegister = cashRegister;
 		this.amountPaid = amountPaid;
-		this.change = amountPaid.subtract(currentSale.CalculateFinalPrice());
+		this.change = (amountPaid	== null || currentSale == null)?
+				new Amount(-1):amountPaid.subtract(currentSale.CalculateFinalPrice());
 	}
 	
 	/**
@@ -36,6 +38,8 @@ public class CashPayment {
 	 * 						processed <code>sale</code> and <code>CashPayment</code>.			
 	 */
 	public SaleLogDTO processPayment(Sale currentSale) {
+		if(change.equals(new Amount(-1)))
+			return null;
 		cashRegister.addPayment(currentSale.CalculateFinalPrice());
 		SaleLogDTO saleLogDTO = new SaleLogDTO(currentSale, this);
 		return saleLogDTO;

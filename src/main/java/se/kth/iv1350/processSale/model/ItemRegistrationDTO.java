@@ -11,6 +11,7 @@ public class ItemRegistrationDTO {
 	private String itemName;
 	private String itemDescription;
 	private Amount itemPrice;
+	private double vatRate;
 	private Amount runningTotal;
 	
 	/**
@@ -24,6 +25,7 @@ public class ItemRegistrationDTO {
 		this.itemDescription = itemDTO.getItemDescription();
 		this.itemPrice = itemDTO.getItemPrice();
 		this.runningTotal= runningTotal;
+		this.vatRate = itemDTO.getVatRate();
 	}
 	
 	/**
@@ -70,7 +72,7 @@ public class ItemRegistrationDTO {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Item name: " + itemName + "\n");
 		builder.append("Item description: " + itemDescription + "\n");
-		builder.append("item price: " + itemPrice.toString() + "\n");
+		builder.append("item price: " + itemPrice.add(itemPrice.multiply(vatRate)).toString() + "\n");
 		builder.append("runningTotal: " + runningTotal.toString() + "\n");
 		return builder.toString();
 	}

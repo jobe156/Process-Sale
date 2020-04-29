@@ -13,13 +13,22 @@ public class TransactionResultDTO {
 	private Amount change;
 	
 	/**
-	 * Creates a new instance of a display transaction dto.
+	 * Creates a new instance of a transaction result dto.
 	 * @param saleLog
 	 */
 	public TransactionResultDTO(SaleLogDTO saleLog) {
 		this.totalPrice = saleLog.getTotalPrice();
 		this.amountPaid = saleLog.getPaidAmount();
 		this.change = saleLog.getChange();
+	}
+	
+	/**
+	 * Creates a instance of a transaction result dto with only information about
+	 * the total price of the sale.
+	 * @param sale	
+	 */
+	public TransactionResultDTO(Sale sale) {
+		this.totalPrice = sale.CalculateFinalPrice();
 	}
 	
 	/**
@@ -50,15 +59,17 @@ public class TransactionResultDTO {
 	}
 	
 	/**
-	 * Creates a string of the the display transaction dto and returns it.
+	 * Creates a string of the the transaction result dto and returns it.
 	 * @return the string of the display transaction dto.
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Total price: \t" + totalPrice.toString() + "\n");
-		builder.append("Amount paid: \t" + amountPaid.toString() + "\n");
-		builder.append("Change: \t" + change.toString() + "\n");
+		if(amountPaid != null && change != null) {
+			builder.append("Amount paid: \t" + amountPaid.toString() + "\n");
+			builder.append("Change: \t" + change.toString() + "\n");
+		}
 		return builder.toString();
 	}
 }

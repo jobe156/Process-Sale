@@ -2,6 +2,7 @@ package se.kth.iv1350.processSale.util;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -150,29 +151,56 @@ class AmountTest {
 	}
 	
 	@Test
-	public void testToStringPositiveAmt() {
-		double amountState = 5;
-		Amount amount = new Amount(amountState);
-		String expResult = String.valueOf(amountState);
+	public void testToString() {
+		double amountValue = 3.05;
+		Amount amount = new Amount(amountValue);
+		String expResult = "3.05";
 		String result = amount.toString();
-		assertEquals(expResult, result, "ToString operation went wrong.");
+		assertEquals(expResult, result, "invlaid string");
 	}
 	
 	@Test
-	public void testToStringNegativAmt() {
-		double amountState = -5;
-		Amount amount = new Amount(amountState);
-		String expResult = String.valueOf(amountState);
+	public void testToStringZero() {
+		double amountValue = 0;
+		Amount amount = new Amount(amountValue);
+		String expResult = "0.00";
 		String result = amount.toString();
-		assertEquals(expResult, result, "ToString operation went wrong.");
+		assertEquals(expResult, result, "invlaid string");
 	}
 	
 	@Test
-	public void testToStringZeroAmt() {
-		double amountState = 0;
-		Amount amount = new Amount(amountState);
-		String expResult = String.valueOf(amountState);
+	public void testToStringNegative() {
+		double amountValue = -3.05;
+		Amount amount = new Amount(amountValue);
+		String expResult = "-3.05";
 		String result = amount.toString();
-		assertEquals(expResult, result, "ToString operation went wrong.");
+		assertEquals(expResult, result, "invlaid string");
+	}
+	
+	@Test
+	public void testToStringInfinitDecimals() {
+		double amountValue = (1.0/3.0);
+		Amount amount = new Amount(amountValue);
+		String expResult = "0.33";
+		String result = amount.toString();
+		assertEquals(expResult, result, "invlaid string");
+	}
+	
+	@Test
+	public void testToStringOneDeciaml() {
+		double amountValue = 3.1;
+		Amount amount = new Amount(amountValue);
+		String expResult = "3.10";
+		String result = amount.toString();
+		assertEquals(expResult, result, "invlaid string");
+	}
+	
+	@Test
+	public void testToStringLargeNumber() {
+		double amountValue = 5123332.3445435;
+		Amount amount = new Amount(amountValue);
+		String expResult = "5123332.34";
+		String result = amount.toString();
+		assertEquals(expResult, result, "invlaid string");
 	}
 }

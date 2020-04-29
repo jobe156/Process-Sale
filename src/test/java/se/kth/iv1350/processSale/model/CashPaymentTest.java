@@ -15,16 +15,32 @@ class CashPaymentTest {
 	
 	@BeforeEach
 	public void startUp() {
-		Amount itemPrice = new Amount(50);
-		ItemIdentifier itemID = new ItemIdentifier("001");
-		ItemDTO itemDTO = new ItemDTO(itemID, "Bread",itemPrice, "It´s whole grain!", 0.20);
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It´s whole grain!";
+		double breadItemVat = 0.20;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
+		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		sale = new Sale();
-		sale.addItem(itemDTO);
+		sale.addItem(breadItemDTO);
 	}
 	
 	@AfterEach
 	public void tearDown() {
 		sale = null;
+	}
+	
+	@Test
+	public void testCashPayemntnullArg() {
+		CashRegister cashRegister = new CashRegister(); 
+		Amount nullAmountPaid = null;
+		Sale nullSale = null;
+		CashPayment cashPayment= new CashPayment(nullAmountPaid, cashRegister, nullSale);
+		Amount expResult = new Amount(-1);
+		Amount result = cashPayment.getChange();
+		assertEquals(expResult, result, "Null argument givs invalid cahnge");
 	}
 	
 	@Test
@@ -34,7 +50,7 @@ class CashPaymentTest {
 		CashPayment cashPayment= new CashPayment(amountPaid, cashRegister, sale);
 		Amount itemPrice = new Amount(50);
 		double vatRate = 0.20;
-		Amount expResult = amountPaid.subtract(itemPrice.multiply(1 + vatRate));;
+		Amount expResult = amountPaid.subtract(itemPrice.add(itemPrice.multiply(vatRate)));
 		Amount result = cashPayment.getChange();
 		assertEquals(expResult, result, "invalid change");
 	}

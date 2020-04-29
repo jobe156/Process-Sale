@@ -60,6 +60,15 @@ public class Controller {
 	}
 	
 	/**
+	 * Show to total price that is going to be paid.
+	 * @return	The total price that is going to be paid.
+	 */
+	public TransactionResultDTO endSale() {
+		return SIProvider.generateTransactionResultDTO(currentSale);
+	}
+	
+	
+	/**
 	 * Process the <code>CashPayment</code> and finalize the sale by sending a <code>SaleLogDTO</code> to the 
 	 * <code>AccountingSystemHandler</code> and returns a <code>DisplayTransactionDTO</code> which contains information 
 	 * about the transaction. A <code>Receipt</code> containing information about the <code>Sale</code> and 

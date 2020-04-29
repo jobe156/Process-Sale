@@ -17,21 +17,29 @@ import se.kth.iv1350.processSale.model.TransactionResultDTO;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 
-
-
 class ControllerTest {
+	private ItemDTO breadItemDTO;
+	private ItemIdentifier breadItemID;
 	private Printer printer;
 	private SaleInformationProvider SIProvider;
 	private Controller cntrl;
-	private ItemIdentifier itemID;
-
+	private Sale sale;
+	
 	@BeforeEach
 	public void setUp() {
 		printer = new Printer();
 		SIProvider = new SaleInformationProvider(printer);
 		cntrl = new Controller(SIProvider);
-		itemID = new ItemIdentifier("001");
-
+		sale = new Sale();
+		
+		String breadStringIdentifier = "001";
+		double breadItemValue = 50;
+		String breadItemName = "Bread";
+		String breadItemDescription = "It큦 whole grain!";
+		double breadItemVat = 0;
+		Amount breadItemPrice = new Amount(breadItemValue);
+		breadItemID = new ItemIdentifier(breadStringIdentifier);
+		breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 	}
 
 	@AfterEach
@@ -39,28 +47,19 @@ class ControllerTest {
 		printer = null;
 		SIProvider = null;
 		cntrl = null;
-		itemID = null;
+		sale = null;
+		
+		breadItemID = null;
+		breadItemDTO = null;
 	}
 
 	@Test
 	public void testRegisterItem() {
-		Sale sale = new Sale();
-		/*
-		Amount itemPrice1 = new Amount(50);
-		ItemIdentifier itemID1 = new ItemIdentifier("001");
-		ItemDTO itemDTO1 = new ItemDTO(itemID1, "Bread",itemPrice1, "It큦 whole grain!", 0);
-		*/
-		String breadStringIdentifier = "001";
-		double breadItemValue = 50;
-		String breadItemName = "Bread";
-		String breadItemDescription = "It큦 whole grain!";
-		double breadItemVat = 0;
-		Amount breadItemPrice = new Amount(breadItemValue);
-		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
-		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		sale.addItem(breadItemDTO);
 		ItemRegistrationDTO expResult = new ItemRegistrationDTO(breadItemDTO, sale.CalculateFinalPrice());
 		cntrl.startSale();
+		String identifierString = "001";
+		ItemIdentifier itemID = new ItemIdentifier(identifierString);
 		ItemRegistrationDTO result = cntrl.registerItem(itemID);
 		assertEquals(expResult.getItemName(), result.getItemName(), "invalid itemName");
 		assertEquals(expResult.getItemDescription(), result.getItemDescription(), "invalid item description");
@@ -69,26 +68,23 @@ class ControllerTest {
 	}
 	
 	@Test
-	public void testProcessCashPayment() {
-		Sale sale = new Sale();
-		/*
-		Amount itemPrice1 = new Amount(50);
-		ItemIdentifier itemID1 = new ItemIdentifier("001");
-		ItemDTO itemDTO1 = new ItemDTO(itemID1, "Bread",itemPrice1, "It큦 whole grain!", 0);
-		sale.addItem(itemDTO1);
-		*/
-		String breadStringIdentifier = "001";
-		double breadItemValue = 50;
-		String breadItemName = "Bread";
-		String breadItemDescription = "It큦 whole grain!";
-		double breadItemVat = 0;
-		Amount breadItemPrice = new Amount(breadItemValue);
-		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
-		ItemDTO breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
+	public void testEndSale() {
 		sale.addItem(breadItemDTO);
-		
+		cntrl.startSale();
+		String identifierString = "001";
+		ItemIdentifier itemID = new ItemIdentifier(identifierString);
+		cntrl.registerItem(itemID);
+		TransactionResultDTO expResult = new TransactionResultDTO(sale);
+		TransactionResultDTO result = cntrl.endSale();
+		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
+	}
+	
+	@Test
+	public void testProcessCashPayment() {
+		sale.addItem(breadItemDTO);
 		CashRegister cashRegister = new CashRegister();
-		Amount amountPaid = new Amount(200);
+		double paidValue = 200;
+		Amount amountPaid = new Amount(paidValue);
 		CashPayment cashPayment= new CashPayment(amountPaid, cashRegister, sale);
 		SaleLogDTO saleLog = cashPayment.processPayment(sale);
 		TransactionResultDTO expResult = new TransactionResultDTO(saleLog);
