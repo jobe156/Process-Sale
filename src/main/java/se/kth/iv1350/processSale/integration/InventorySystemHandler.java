@@ -14,6 +14,7 @@ import se.kth.iv1350.processSale.util.Amount;
  */
 public class InventorySystemHandler {
 	private List<ItemDTO> items = new ArrayList<>();
+	private ItemIdentifier invalidItemIdentifier;
 	 
 	/**
 	 * creates a new instance of a inventory system hander.
@@ -53,20 +54,31 @@ public class InventorySystemHandler {
 		ItemIdentifier cerealItemID = new ItemIdentifier(cerealStringIdentifier);
 		ItemDTO cerealItemDTO = new ItemDTO(cerealItemID, cerealItemName, cerealItemPrice, cerealItemDescription, cerealItemVat);
 		items.add(cerealItemDTO);
+		
+		String invalidStringIdentifier = "abc";
+		invalidItemIdentifier = new ItemIdentifier(invalidStringIdentifier);
 	}
 	
 	/**
 	 * Finds the item with the same <code>ItemIdentifier</code> from the inventorySystem.
-	 * Returns null if the item is not found.
 	 * 
 	 * @param ItemID	Used to identify the searched item.
-	 * @return			the searched <code>ItemDTO</code> or null.
+	 * @return			The searched <code>ItemDTO</code> or null.
+	 * 
+	 * @throws InvalidItemIdentifierException 			If the given <code>ItemIdentifier<code> does not have 
+	 * 													a corresponding <code>ItemDTO<code> in the inventory 
+	 * 													system.
+	 * @throws InventorySystemNotRespondingException  	If the inventory system is not responding.
+	 * @throws NullPointerException						If the given <code>itemIdentifier<code> is null.
 	 */
-	public ItemDTO findItem(ItemIdentifier itemID) {
-		if(itemID != null)
-			for(ItemDTO itemDTO: items)
-				if( itemDTO.getItemIdentifier().equals(itemID))
-					return itemDTO;
-		return null;
+	public ItemDTO findItem(ItemIdentifier itemID) throws InvalidItemIdentifierException{			
+		if(itemID.equals(invalidItemIdentifier))
+			throw new InventorySystemNotRespondingException("The Inventory System is´t responding.");
+			
+		for(ItemDTO itemDTO: items)
+			if( itemDTO.getItemIdentifier().equals(itemID))
+				return itemDTO;
+			
+		throw new InvalidItemIdentifierException(itemID);
 	}
 }

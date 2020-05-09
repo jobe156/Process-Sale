@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.Printer;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
+import se.kth.iv1350.processSale.integration.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
@@ -54,33 +55,54 @@ class ControllerTest {
 	}
 
 	@Test
-	public void testRegisterItem() {
+	public void testRegisterItem() throws UnsuccessfulOperationException{
 		sale.addItem(breadItemDTO);
 		ItemRegistrationDTO expResult = new ItemRegistrationDTO(breadItemDTO, sale.CalculateFinalPrice());
 		cntrl.startSale();
 		String identifierString = "001";
 		ItemIdentifier itemID = new ItemIdentifier(identifierString);
+		try {
 		ItemRegistrationDTO result = cntrl.registerItem(itemID);
 		assertEquals(expResult.getItemName(), result.getItemName(), "invalid itemName");
 		assertEquals(expResult.getItemDescription(), result.getItemDescription(), "invalid item description");
 		assertEquals(expResult.getItemPrice(), result.getItemPrice(), "invalid item price");
 		assertEquals(expResult.getRunningTotal(), result.getRunningTotal(), "invalid irunningTotal");
+		}catch(InvalidItemIdentifierException exp){
+			fail("An unintentional exception was caught");
+		}
 	}
 	
 	@Test
-	public void testEndSale() {
+	public void testRegisterUnsuccessfulOperation() throws InvalidItemIdentifierException{
+		String notRespStringIdentifier = "abc";
+		ItemIdentifier notRespItemIdentifier = new ItemIdentifier(notRespStringIdentifier);
+		cntrl.startSale();
+		try {
+			cntrl.registerItem(notRespItemIdentifier);
+		}catch(UnsuccessfulOperationException exp) {
+			assertTrue(exp.getMessage().equals("The given task couldn´t be carried out."));
+		}
+		
+	}
+	
+	@Test
+	public void testEndSale() throws UnsuccessfulOperationException{
 		sale.addItem(breadItemDTO);
 		cntrl.startSale();
 		String identifierString = "001";
 		ItemIdentifier itemID = new ItemIdentifier(identifierString);
+		try {
 		cntrl.registerItem(itemID);
+		}catch(InvalidItemIdentifierException exp) {
+			fail("An unintentional exception was caught");
+		}
 		TransactionResultDTO expResult = new TransactionResultDTO(sale);
 		TransactionResultDTO result = cntrl.endSale();
 		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
 	}
 	
 	@Test
-	public void testProcessCashPayment() {
+	public void testProcessCashPayment()throws UnsuccessfulOperationException {
 		sale.addItem(breadItemDTO);
 		CashRegister cashRegister = new CashRegister();
 		double paidValue = 200;
@@ -89,7 +111,11 @@ class ControllerTest {
 		SaleLogDTO saleLog = cashPayment.processPayment(sale);
 		TransactionResultDTO expResult = new TransactionResultDTO(saleLog);
 		cntrl.startSale();
-		cntrl.registerItem(breadItemID);
+		try {
+			cntrl.registerItem(breadItemID);
+		}catch(InvalidItemIdentifierException exp) {
+				fail("An unintentional exception was caught");
+		}
 		TransactionResultDTO result = cntrl.processCashPayment(amountPaid);
 		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
 		assertEquals(expResult.getAmountPaid(), result.getAmountPaid(), "invalid amount paid");

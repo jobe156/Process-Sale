@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.integration.ItemDTO;
@@ -32,6 +33,7 @@ class CashPaymentTest {
 		sale = null;
 	}
 	
+	@Disabled
 	@Test
 	public void testCashPayemntnullArg() {
 		CashRegister cashRegister = new CashRegister(); 

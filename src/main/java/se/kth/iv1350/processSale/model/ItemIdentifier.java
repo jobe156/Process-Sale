@@ -43,4 +43,8 @@ public class ItemIdentifier {
 		ItemIdentifier otherIdentifier = (ItemIdentifier) other;
 		return stringIdentifier.equals(otherIdentifier.stringIdentifier);
 	}
+	
+	public String toString() {
+		return stringIdentifier;
+	}
 }
