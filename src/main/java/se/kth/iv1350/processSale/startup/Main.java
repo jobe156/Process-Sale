@@ -17,9 +17,11 @@ public class Main {
 		 * @param args is not used in the method
 		 */
 		public static void main (String[] args) {
+			/*
 			Printer printer = new Printer();
 			SaleInformationProvider SIProvider = new SaleInformationProvider(printer);
-			Controller controller = new Controller( SIProvider);
+			*/
+			Controller controller = new Controller(); //(SIProvider)
 			View view = new View(controller);
 			view.runFakeExecution();
 		}

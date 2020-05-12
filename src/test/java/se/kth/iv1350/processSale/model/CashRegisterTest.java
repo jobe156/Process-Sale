@@ -38,6 +38,7 @@ class CashRegisterTest {
 		assertEquals(expResult, result, "incorrect value in register");	
 	}
 	
+
 	@Test
 	public void testAddPaymentNullArg() {
 		CashRegister cashRegister = new CashRegister(); 

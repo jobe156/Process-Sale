@@ -62,8 +62,7 @@ public class Sale {
 	
 	/**
 	 * Adds an <code>item</code>, increases the quantity of an <code>item</code> to
-	 * the {@link Sale}. if itemDTO is null an exception is thrown and no items are 
-	 * added to the sale.
+	 * the {@link Sale}. 
 	 * 
 	 * @param itemDTO  Used to provide information about the item being bought.
 	 */

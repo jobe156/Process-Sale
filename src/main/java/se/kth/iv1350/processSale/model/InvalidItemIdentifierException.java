@@ -1,4 +1,4 @@
-package se.kth.iv1350.processSale.integration;
+package se.kth.iv1350.processSale.model;
 
 import se.kth.iv1350.processSale.model.*;
 

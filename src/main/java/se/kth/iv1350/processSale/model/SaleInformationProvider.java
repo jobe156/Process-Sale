@@ -14,8 +14,19 @@ import se.kth.iv1350.processSale.util.Amount;
 public class SaleInformationProvider {
 	private Printer printer;
 	
+	private static final SaleInformationProvider SIProvider = new SaleInformationProvider();
+	/*
 	public SaleInformationProvider(Printer printer) {
 		this.printer = printer;
+	}
+	*/
+	
+	private SaleInformationProvider() {
+		this.printer = Printer.getPrinter();
+	}
+	
+	public static SaleInformationProvider getSaleInformationProvider() {
+		return SIProvider;
 	}
 	
 	/**
@@ -23,8 +34,7 @@ public class SaleInformationProvider {
 	 * 
 	 * @param currentSale	Is the <code>sale</code> that is currently being performed.
 	 * @return				Information about an <code>item</code> and the <code>sale</code> as a whole.
-	 * 						throws exception if the  <code>itemDTO</code> argument is null and 
-	 * 						null is returned.
+	 * 					
 	 */
 	public ItemRegistrationDTO generateItemRegistrationDTO(Sale currentSale, ItemDTO itemDTO){
 		Amount totalPrice = currentSale.CalculateFinalPrice();		
@@ -39,8 +49,7 @@ public class SaleInformationProvider {
 	 * @return				Information about the total cost of the <code>sale</code>.
 	 */
 	public TransactionResultDTO generateTransactionResultDTO (Sale currentSale) {
-		//if(currentSale == null)
-			//return null;
+		
 		return new TransactionResultDTO (currentSale);
 	}
 	
@@ -49,24 +58,20 @@ public class SaleInformationProvider {
 	 * 
 	 * @param saleLog	Provides information about the <code>cashPayment</code>
 	 * 					and <code>sale</code>.
-	 * @return			The generated displayTransactionDTO. if the <code>saleLog</code> argument 
-	 * 					is null, a  exception is thrown and null is returned.  
+	 * @return			The generated displayTransactionDTO. 
 	 */
 	public TransactionResultDTO generateTransactionResultDTO (SaleLogDTO saleLog) {
-		//if(saleLog == null)
-			//return null;
+	
 		TransactionResultDTO traResDto = new TransactionResultDTO(saleLog);
 		return traResDto;
 	}
 	
 	/**
-	 * Generates a receipt and prints it. if the <code>SaleLogDTO</code> is null, a exception is thrown
-	 * and null is returned.
+	 * Generates a receipt and prints it.
 	 * @param saleLog	provides information for the receipt.
 	 */
 	public void printReceipt(SaleLogDTO saleLog) {
-		//if(saleLog == null)
-			//return;
+
 		Receipt receipt = new Receipt(saleLog);
 		printer.printReceipt(receipt);
 	}	

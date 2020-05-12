@@ -32,7 +32,7 @@ class ErrorMessageHandlerTest {
 		StringBuilder builder = new StringBuilder();
 		builder.append("A problem has occured:\n");
 		builder.append(errorMessageString);
-		builder.append("\n");
+		builder.append("\n\n");
 		String expResult = new String(builder.toString());
 		EMHandler.displayErrorMessage(errorMessageString);
 		String result = outContent.toString();

@@ -17,15 +17,12 @@ public class CashRegister {
 	}
 	
 	/**
-	 * Is used when a payment is added to the real cash register. If the 
-	 * Amount is null, an exception is thrown and nothing is added to the 
-	 * amount in the register.
+	 * Is used when a payment is added to the real cash register. 
 	 * 
 	 * @param amount	the total cost of the <code>Item</code>s 
 	 * 					in the <code>Sale</code>.
 	 */
 	public void addPayment(Amount amount) {
-		if(amount != null)
 		amntInReg = amntInReg.add(amount);
 	}
 	

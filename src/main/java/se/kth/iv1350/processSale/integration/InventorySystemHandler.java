@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.kth.iv1350.processSale.integration.ItemDTO;
+import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 

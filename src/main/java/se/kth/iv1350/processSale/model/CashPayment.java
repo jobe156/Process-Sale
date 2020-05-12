@@ -20,8 +20,7 @@ public class CashPayment {
 	private List<RevenueObserver> revenueObservers = new ArrayList<>();
 	
 	/**
-	 * Creates a new instance of a cash payment. if amountPaid or currentSale arguments are null
-	 * change will be given a value of -1.
+	 * Creates a new instance of a cash payment.
 	 * 
 	 * @param amountPaid	The <code>amount</code> paid in cash.
 	 * @param cashRegister	The <code>cashRegister</code> that keeps track of the physical 
@@ -29,7 +28,7 @@ public class CashPayment {
 	 * @param currentSale	Provides information about the registered <code>Items</code>.
 	 * 
 	 */
-	public CashPayment(Amount amountPaid, CashRegister cashRegister, Sale currentSale) {			
+	public CashPayment(Amount amountPaid, CashRegister cashRegister, Sale currentSale) {
 		this.cashRegister = cashRegister;
 		this.amountPaid = amountPaid;
 		this.totalPrice = currentSale.CalculateFinalPrice();

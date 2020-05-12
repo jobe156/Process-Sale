@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 
+import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.integration.ItemDTO;

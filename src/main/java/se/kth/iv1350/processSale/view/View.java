@@ -1,8 +1,8 @@
 package se.kth.iv1350.processSale.view;
 
-import se.kth.iv1350.processSale.integration.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.controller.Controller;
 import se.kth.iv1350.processSale.controller.UnsuccessfulOperationException;
+import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.util.LogHandler;

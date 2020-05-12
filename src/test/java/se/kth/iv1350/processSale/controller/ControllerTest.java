@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.Printer;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
-import se.kth.iv1350.processSale.integration.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.model.CashRegister;
+import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.TransactionResultDTO;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
@@ -21,16 +21,16 @@ import se.kth.iv1350.processSale.util.Amount;
 class ControllerTest {
 	private ItemDTO breadItemDTO;
 	private ItemIdentifier breadItemID;
-	private Printer printer;
-	private SaleInformationProvider SIProvider;
+	//private Printer printer;
+	//private SaleInformationProvider SIProvider;
 	private Controller cntrl;
 	private Sale sale;
 	
 	@BeforeEach
 	public void setUp() {
-		printer = new Printer();
-		SIProvider = new SaleInformationProvider(printer);
-		cntrl = new Controller(SIProvider);
+		//printer = new Printer();
+		//SIProvider = new SaleInformationProvider(printer);
+		cntrl = new Controller(); //SIProvider
 		sale = new Sale();
 		
 		String breadStringIdentifier = "001";
@@ -45,8 +45,8 @@ class ControllerTest {
 
 	@AfterEach
 	public void tearDown() {
-		printer = null;
-		SIProvider = null;
+		//printer = null;
+		//SIProvider = null;
 		cntrl = null;
 		sale = null;
 		

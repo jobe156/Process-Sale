@@ -4,9 +4,9 @@ import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.integration.RegistryCreator;
-import se.kth.iv1350.processSale.integration.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.integration.InventorySystemNotRespondingException;
 import se.kth.iv1350.processSale.model.CashRegister;
+import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.TransactionResultDTO;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
@@ -39,12 +39,12 @@ public class Controller {
 	 * 
 	 *@param SIProvider Provides information about the <code>Sale</code> that´s returned to the <code>View</code>.
 	 */
-	public Controller( SaleInformationProvider SIProvider) {
+	public Controller() { //(SaleInformationProvider SIProvider)
 		RegistryCreator registryCreator = new RegistryCreator();
 		ISHandler = registryCreator.getInventorySystemHandler();
 		ASHandler = registryCreator.getAccountingSystemHandler();
 		cashRegister = new CashRegister();
-		this.SIProvider = SIProvider;
+		this.SIProvider = SaleInformationProvider.getSaleInformationProvider();
 		
 	}
 	
@@ -72,7 +72,6 @@ public class Controller {
 	 * @throws InvalidItemIdentifierException 			If the given <code>ItemIdentifier<code> does not have 
 	 * 													a corresponding <code>ItemDTO<code> in the inventory 
 	 * 													system.
-	 * @throws NullPointerException						If the given <code>itemIdentifier<code> is null.
 	 * @throws UnsuccessfulOperationException			If there is another unspecified problem occurred.
 	 * @throws IllegalStateException					If the sale has not started.
 	 */
@@ -90,7 +89,6 @@ public class Controller {
 			throw new UnsuccessfulOperationException("The given task couldn´t be carried out.", exp);
 		}
 	}
-	
 	
 	/**
 	 * Show to total price that is going to be paid.
@@ -112,7 +110,6 @@ public class Controller {
 	 * @return				Information about the <code>Sale</code> and <code>CashPayment</code>.
 	 * 
 	 * @throws IllegalStateException	If the sale has not started.
-	 * @throws nullPointerException		If the paidAmount is null and the processPayment method is called.
 	 */
 	public TransactionResultDTO processCashPayment(Amount paidAmount) {
 		if(currentSale == null)

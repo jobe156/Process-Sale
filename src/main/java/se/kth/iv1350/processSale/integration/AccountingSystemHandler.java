@@ -20,8 +20,7 @@ public class AccountingSystemHandler {
 	}
 	
 	/**
-	 * Adds a new <code>SaleLogDTO</code> to the List. Null is returned if the sale log argument 
-	 * is null.
+	 * Adds a new <code>SaleLogDTO</code> to the List.
 	 * 
 	 * @param saleLog	The <code>SaleLogDTO</code> being added to the list.
 	 */

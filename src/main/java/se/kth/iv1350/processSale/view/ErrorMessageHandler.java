@@ -13,7 +13,7 @@ public class ErrorMessageHandler {
 		StringBuilder builder = new StringBuilder();
 		builder.append("A problem has occured:\n");
 		builder.append(msg);
-		builder.append("\n");
+		builder.append("\n\n");
 		System.out.print(builder);
 	}
 }

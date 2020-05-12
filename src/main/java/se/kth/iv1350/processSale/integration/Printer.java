@@ -6,11 +6,15 @@ import se.kth.iv1350.processSale.model.Receipt;
  * Is used to print <code>Receipts</code> to the console.
  */
 public class Printer {
-	
+	private static final Printer printer = new Printer();
 	/**
 	 * creates a new instance of a printer
 	 */
-	public Printer() {}
+	private Printer() {}
+	
+	public static Printer getPrinter() {
+		return printer;
+	}
 	
 	/**
 	 * Prints out a given <code>Receipt</code>.

@@ -10,8 +10,7 @@ public class ItemIdentifier {
 	
 	/**
 	 * Creates a new instance of a StringIdentifier. Currently theStringIdentifier is 
-	 * represented by a String. A exception is thrown if the argument is
-	 * null.
+	 * represented by a String. 
 	 * 
 	 * @paramStringIdentifier the string representing theStringIdentifier.
 	 */
