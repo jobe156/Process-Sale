@@ -10,7 +10,6 @@ import se.kth.iv1350.processSale.model.Item;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.model.Sale;
-import se.kth.iv1350.processSale.model.Item;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

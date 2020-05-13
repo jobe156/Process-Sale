@@ -12,7 +12,6 @@ import se.kth.iv1350.processSale.model.Item;
  */
 public class DiscountByItem implements Discount{
 	private Item discItem;
-	private int quantity;
 	
 	/**
 	 * creates an instance of discount by item.
@@ -24,7 +23,6 @@ public class DiscountByItem implements Discount{
 		this.discItem = discItem;
 		for(int i = 1; i < quantity; i++)
 			this.discItem.increaseQuantity();
-
 	}
 	
 	@Override
