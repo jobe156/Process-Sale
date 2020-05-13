@@ -15,11 +15,6 @@ public class SaleInformationProvider {
 	private Printer printer;
 	
 	private static final SaleInformationProvider SIProvider = new SaleInformationProvider();
-	/*
-	public SaleInformationProvider(Printer printer) {
-		this.printer = printer;
-	}
-	*/
 	
 	private SaleInformationProvider() {
 		this.printer = Printer.getPrinter();

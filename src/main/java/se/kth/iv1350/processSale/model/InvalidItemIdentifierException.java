@@ -6,7 +6,6 @@ import se.kth.iv1350.processSale.model.*;
  * Is a <code>Exception<code> that is thrown if there does not exist a <code>ItemDTO<code>
  * for a given <code>ItemIdentifier<code>.
  */
-
 public class InvalidItemIdentifierException extends Exception{
 		private ItemIdentifier invalidItemID;
 		

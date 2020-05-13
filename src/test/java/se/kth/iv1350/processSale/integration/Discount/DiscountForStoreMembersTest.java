@@ -30,7 +30,6 @@ class DiscountForStoreMembersTest {
 		ItemIdentifier breadItemID = new ItemIdentifier(breadStringIdentifier);
 		breadItemDTO = new ItemDTO(breadItemID, breadItemName, breadItemPrice, breadItemDescription, breadItemVat);
 		sale = new Sale();		
-		
 	}
 	
 	@AfterEach

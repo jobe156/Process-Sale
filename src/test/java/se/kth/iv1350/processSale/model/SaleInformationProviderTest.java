@@ -14,15 +14,13 @@ import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
 
 class SaleInformationProviderTest {
-	//private Printer printer;
 	private SaleInformationProvider SIProvider;
 	private Sale sale;
 	private ItemDTO breadItemDTO;
 
 	@BeforeEach
 	public void startUp() {
-		//printer = new Printer();
-		SIProvider = SaleInformationProvider.getSaleInformationProvider();		//new SaleInformationProvider(printer)
+		SIProvider = SaleInformationProvider.getSaleInformationProvider();
 		sale = new Sale();
 		
 		String breadStringIdentifier = "001";
@@ -37,7 +35,6 @@ class SaleInformationProviderTest {
 
 	@AfterEach
 	public void tearDown() {
-		//printer = null;
 		SIProvider = null;
 		sale = null;
 		breadItemDTO = null;

@@ -15,7 +15,6 @@ public class Item {
 
 	/**
 	 * Creates a new instance of a item from a <code>ItemDTO</code>.
-	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
 	public Item(ItemDTO itemDTO) {
@@ -27,7 +26,6 @@ public class Item {
 	
 	/**
 	 * Creates a new instance of a item from another <code>Item</code>.
-	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
 	Item(Item item) {

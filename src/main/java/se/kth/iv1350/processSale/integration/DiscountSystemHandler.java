@@ -10,14 +10,13 @@ import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
 
 /**
- * Represent an external system that keeps track of the <code>Discounts<code>.
- *
+ * Represent an external system that keeps track of the <code>Discounts<code>. 
  */
 public class DiscountSystemHandler {
 	private List<Discount> discounts = new ArrayList<>();
 	
 	/**
-	 * Creates an instance of the discountsystemhandler
+	 * Creates an instance of the discount system handler.
 	 */
 	DiscountSystemHandler(){
 		addDiscounts();

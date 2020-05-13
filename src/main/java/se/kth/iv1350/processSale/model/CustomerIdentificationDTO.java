@@ -15,10 +15,18 @@ public class CustomerIdentificationDTO {
 		this.yearOfBirth = yearOfBirth;
 	}
 	
+	/**
+	 * Returns the name of the customer. 
+	 * @return	name of the Customer.
+	 */
 	public String getName() {
 		return new String(name);
 	}
 	
+	/**
+	 * Returns the year of birth. 
+	 * @return	the year of birth.
+	 */
 	public int getYearOfBirth() {
 		return yearOfBirth;
 	}

@@ -3,7 +3,6 @@ package se.kth.iv1350.processSale.integration;
 /**
  * Responsible for creating the other external systems.
  */
-
 public class RegistryCreator {
 	private InventorySystemHandler ISHandler;
 	private AccountingSystemHandler ASHandler;

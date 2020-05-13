@@ -11,7 +11,6 @@ import se.kth.iv1350.processSale.integration.Discount.Discount;
 /**
  * Is used to keep track of items being bought and information regarding the
  * transaction.
- * 
  */
 public class Sale {
 	private LocalTime localTime;
@@ -115,7 +114,6 @@ public class Sale {
 				totalPrice = totalPrice.subtract(discount.calculateDicount(this));
 		return totalPrice;
 	}
-	
 	
 	/**
 	 * Only calculates the total price of the items including vat.

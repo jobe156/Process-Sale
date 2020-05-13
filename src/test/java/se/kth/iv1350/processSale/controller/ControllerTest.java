@@ -24,16 +24,12 @@ import se.kth.iv1350.processSale.util.Amount;
 class ControllerTest {
 	private ItemDTO breadItemDTO;
 	private ItemIdentifier breadItemID;
-	//private Printer printer;
-	//private SaleInformationProvider SIProvider;
 	private Controller cntrl;
 	private Sale sale;
 	
 	@BeforeEach
 	public void setUp() {
-		//printer = new Printer();
-		//SIProvider = new SaleInformationProvider(printer);
-		cntrl = new Controller(); //SIProvider
+		cntrl = new Controller();
 		sale = new Sale();
 		
 		String breadStringIdentifier = "001";
@@ -48,8 +44,6 @@ class ControllerTest {
 
 	@AfterEach
 	public void tearDown() {
-		//printer = null;
-		//SIProvider = null;
 		cntrl = null;
 		sale = null;
 		

@@ -56,7 +56,6 @@ class TotalRevenueViewTest {
 		String finalString = builder.toString();
 		String result = outContent.toString();
 		assertTrue(result.contains(finalString), "Wrong printout");
-		
 	}
 
 }

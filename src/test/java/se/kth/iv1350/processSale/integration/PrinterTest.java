@@ -37,7 +37,7 @@ class PrinterTest {
 	
 	@Test
 	public void testPrintReceipt() {
-		Printer printer = Printer.getPrinter();	//new Printer();
+		Printer printer = Printer.getPrinter();
 		Sale sale = new Sale();
 		String breadStringIdentifier = "001";
 		double breadItemValue = 50;

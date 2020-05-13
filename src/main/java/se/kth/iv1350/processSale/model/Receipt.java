@@ -4,6 +4,9 @@ import se.kth.iv1350.processSale.integration.SaleLogDTO;
 
 import java.lang.StringBuilder;
 
+/**
+ * The receipt contains information about the <code>sale<code>.
+ */
 public class Receipt {
 	private String receiptString;
 	

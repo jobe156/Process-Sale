@@ -124,7 +124,6 @@ public class Controller {
 	 * 
 	 * @param paidAmount	The <code>Amount</code> paid. 
 	 * @return				Information about the <code>Sale</code> and <code>CashPayment</code>.
-	 * 
 	 * @throws IllegalStateException	If the sale has not started.
 	 */
 	public TransactionResultDTO processCashPayment(Amount paidAmount) {

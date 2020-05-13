@@ -47,6 +47,6 @@ public class AccountingSystemHandler {
 					}
 				}
 		}
-		return null;		
+		return null;
 	}
 }
