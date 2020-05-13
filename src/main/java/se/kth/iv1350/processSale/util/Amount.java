@@ -78,6 +78,16 @@ public class Amount {
 	}
 	
 	/**
+	 * Checks if a given amount is less then the current amount
+	 * 
+	 * @param amount	the amount to compare with.	
+	 * @return			true or false.
+	 */
+	public boolean lessOrEqualThan(Amount amount) {
+		return this.currentAmount <= amount.currentAmount;
+	}
+	
+	/**
 	 * Creates a string of the amount with one deciaml and returns it.
 	 * @return the corresponding string of the amount.
 	 */

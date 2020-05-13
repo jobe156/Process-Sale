@@ -69,12 +69,12 @@ public class InventorySystemHandler {
 	 * @throws InvalidItemIdentifierException 			If the given <code>ItemIdentifier<code> does not have 
 	 * 													a corresponding <code>ItemDTO<code> in the inventory 
 	 * 													system.
-	 * @throws InventorySystemNotRespondingException  	If the inventory system is not responding.
+	 * @throws ItemRegistrationException  	If the inventory system is not responding.
 	 * @throws NullPointerException						If the given <code>itemIdentifier<code> is null.
 	 */
 	public ItemDTO findItem(ItemIdentifier itemID) throws InvalidItemIdentifierException{			
 		if(itemID.equals(invalidItemIdentifier))
-			throw new InventorySystemNotRespondingException("The Inventory System is´t responding.");
+			throw new ItemRegistrationException("The Inventory System is´t responding.");
 			
 		for(ItemDTO itemDTO: items)
 			if( itemDTO.getItemIdentifier().equals(itemID))

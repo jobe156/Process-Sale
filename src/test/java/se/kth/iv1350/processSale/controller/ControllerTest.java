@@ -8,14 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.Printer;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
+import se.kth.iv1350.processSale.integration.Discount.DiscountByItem;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.ItemRegistrationDTO;
 import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.model.CashRegister;
+import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
 import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.TransactionResultDTO;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
+import se.kth.iv1350.processSale.model.Item;
 import se.kth.iv1350.processSale.util.Amount;
 
 class ControllerTest {
@@ -102,7 +105,7 @@ class ControllerTest {
 	}
 	
 	@Test
-	public void testProcessCashPayment()throws UnsuccessfulOperationException {
+	public void testProcessCashPayment()throws UnsuccessfulOperationException{
 		sale.addItem(breadItemDTO);
 		CashRegister cashRegister = new CashRegister();
 		double paidValue = 200;
@@ -120,5 +123,28 @@ class ControllerTest {
 		assertEquals(expResult.getTotalPrice(), result.getTotalPrice(), "invalid total price");
 		assertEquals(expResult.getAmountPaid(), result.getAmountPaid(), "invalid amount paid");
 		assertEquals(expResult.getChange(), result.getChange(), "invalid change");
+	}
+	
+	@Test
+	public void testCheckForDiscounts() throws UnsuccessfulOperationException{
+		cntrl.startSale();
+		try {
+			for(int i = 3; i< 3; i++)
+				cntrl.registerItem(breadItemID);
+				sale.addItem(breadItemDTO);
+		}
+		catch(InvalidItemIdentifierException exp) {
+			fail("An unintentional exception was caught");
+		}
+		String customerName = "Paul";
+		int customerYearOfBirth = 1994;
+		CustomerIdentificationDTO customerID = new CustomerIdentificationDTO(customerName, customerYearOfBirth);
+		TransactionResultDTO trnResDto = cntrl.CheckForDiscounts(customerID);
+		Item breadItem = new Item(breadItemDTO);
+		DiscountByItem discByItm = new DiscountByItem(breadItem, 3);
+		sale.addDiscount(discByItm);
+		Amount expResult = new Amount(sale.CalculateFinalPrice());
+		Amount result = new Amount(trnResDto.getTotalPrice());
+		assertTrue(expResult.equals(result), "Discount wasn´t applied properly");
 	}
 }

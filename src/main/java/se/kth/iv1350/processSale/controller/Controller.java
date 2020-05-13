@@ -1,10 +1,13 @@
 package se.kth.iv1350.processSale.controller;
+
 import se.kth.iv1350.processSale.integration.AccountingSystemHandler;
 import se.kth.iv1350.processSale.integration.InventorySystemHandler;
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.integration.SaleLogDTO;
 import se.kth.iv1350.processSale.integration.RegistryCreator;
-import se.kth.iv1350.processSale.integration.InventorySystemNotRespondingException;
+import se.kth.iv1350.processSale.integration.ItemRegistrationException;
+import se.kth.iv1350.processSale.integration.Discount.Discount;
+import se.kth.iv1350.processSale.integration.DiscountSystemHandler;
 import se.kth.iv1350.processSale.model.CashRegister;
 import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.TransactionResultDTO;
@@ -14,11 +17,11 @@ import se.kth.iv1350.processSale.model.Sale;
 import se.kth.iv1350.processSale.model.SaleInformationProvider;
 import se.kth.iv1350.processSale.model.CashPayment;
 import se.kth.iv1350.processSale.model.RevenueObserver;
+import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
 import se.kth.iv1350.processSale.util.Amount;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  *This Controller class is responsible for passing calls to the model and returning
@@ -30,22 +33,22 @@ public class Controller {
 	private CashRegister cashRegister;
 	private Sale currentSale;
 	private SaleInformationProvider SIProvider;
+	private DiscountSystemHandler DSHandler;
 	
 	private List<RevenueObserver> revenueObservers = new ArrayList<>();
-
 
 	/**
 	 *Creates a new instance of a controller.
 	 * 
 	 *@param SIProvider Provides information about the <code>Sale</code> that´s returned to the <code>View</code>.
 	 */
-	public Controller() { //(SaleInformationProvider SIProvider)
+	public Controller() {
 		RegistryCreator registryCreator = new RegistryCreator();
 		ISHandler = registryCreator.getInventorySystemHandler();
 		ASHandler = registryCreator.getAccountingSystemHandler();
+		DSHandler = registryCreator.getDiscountSystemHandler();
 		cashRegister = new CashRegister();
 		this.SIProvider = SaleInformationProvider.getSaleInformationProvider();
-		
 	}
 	
 	/**
@@ -85,7 +88,7 @@ public class Controller {
 			ItemRegistrationDTO itmRegDTO = SIProvider.generateItemRegistrationDTO(currentSale, itemDTO);
 			return itmRegDTO;
 		}
-		catch(InventorySystemNotRespondingException exp) {
+		catch(ItemRegistrationException exp) {
 			throw new UnsuccessfulOperationException("The given task couldn´t be carried out.", exp);
 		}
 	}
@@ -97,6 +100,19 @@ public class Controller {
 	public TransactionResultDTO endSale() {
 		if(currentSale == null)
 			throw new IllegalStateException("Trying to end a sale before starting one");
+		return SIProvider.generateTransactionResultDTO(currentSale);
+	}
+	
+	/**
+	 * Check is any discounts can be applied to the sale.
+	 * @param customerID 	Used to determine if the a <code>discount<code> can be applied.
+	 * @return				The total price after the discounts have been applied.
+	 */
+	public TransactionResultDTO CheckForDiscounts(CustomerIdentificationDTO customerID) {
+		List<Discount> disc = DSHandler.findDiscounts(currentSale, customerID);
+		if(!disc.isEmpty()) {
+			currentSale.addDiscounts(disc);
+		}
 		return SIProvider.generateTransactionResultDTO(currentSale);
 	}
 	

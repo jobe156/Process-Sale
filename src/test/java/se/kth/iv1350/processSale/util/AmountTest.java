@@ -203,4 +203,34 @@ class AmountTest {
 		String result = amount.toString();
 		assertEquals(expResult, result, "invlaid string");
 	}
+	
+	@Test
+	public void testLessOrEqualThanLessArg() {
+			double amount1State = 2;
+			double amount2State = 5;
+			Amount amount1 = new Amount(amount1State);
+			Amount amount2 = new Amount(amount2State);
+			boolean result = amount1.lessOrEqualThan(amount2);
+			assertTrue(result, "number should be less or equal");
+	}
+	
+	@Test
+	public void testLessOrEqualThanEqualArg() {
+			double amount1State = 5;
+			double amount2State = 5;
+			Amount amount1 = new Amount(amount1State);
+			Amount amount2 = new Amount(amount2State);
+			boolean result = amount1.lessOrEqualThan(amount2);
+			assertTrue(result, "number should be less or equal");
+	}
+	
+	@Test
+	public void testNotLessOrEqualThan() {
+			double amount1State = 5;
+			double amount2State = 2;
+			Amount amount1 = new Amount(amount1State);
+			Amount amount2 = new Amount(amount2State);
+			boolean result = amount1.lessOrEqualThan(amount2);
+			assertTrue(!result, "number should be less or equal");
+	}
 }

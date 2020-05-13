@@ -7,6 +7,7 @@ package se.kth.iv1350.processSale.integration;
 public class RegistryCreator {
 	private InventorySystemHandler ISHandler;
 	private AccountingSystemHandler ASHandler;
+	private DiscountSystemHandler DSHandler;
 	
 	/**
 	 * creates a new instance of registry creator.
@@ -14,6 +15,7 @@ public class RegistryCreator {
 	public RegistryCreator() {
 		this.ISHandler = new InventorySystemHandler();
 		this.ASHandler = new AccountingSystemHandler();
+		this.DSHandler = new DiscountSystemHandler();
 	}
 
 	/**
@@ -25,10 +27,18 @@ public class RegistryCreator {
 	}
 	
 	/**
-	 * Returns the <code>AccountingSystemHAndel</code>.
-	 * @return	The <code>AccountingSystemHAndel</code>.
+	 * Returns the <code>AccountingSystemHandel</code>.
+	 * @return	The <code>AccountingSystemHandel</code>.
 	 */
 	public AccountingSystemHandler getAccountingSystemHandler() {
 		return this.ASHandler;
+	}
+	
+	/**
+	 * Returns the <code>DiscountSystemHandler</code>.
+	 * @return	The <code>DiscountSystemHandler</code>.
+	 */
+	public DiscountSystemHandler getDiscountSystemHandler() {
+		return this.DSHandler;
 	}
 }

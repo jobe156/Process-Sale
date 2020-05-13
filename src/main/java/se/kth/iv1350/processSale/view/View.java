@@ -4,6 +4,7 @@ import se.kth.iv1350.processSale.controller.Controller;
 import se.kth.iv1350.processSale.controller.UnsuccessfulOperationException;
 import se.kth.iv1350.processSale.model.InvalidItemIdentifierException;
 import se.kth.iv1350.processSale.model.ItemIdentifier;
+import se.kth.iv1350.processSale.model.CustomerIdentificationDTO;
 import se.kth.iv1350.processSale.util.Amount;
 import se.kth.iv1350.processSale.util.LogHandler;
 
@@ -28,10 +29,11 @@ public class View {
 	}
 
 	/**
-	 * Is a test run of the program
+	 * Is a test run of the program.
 	 */
 	public void runFakeExecution() {
 		try {
+			for(int j = 0; j < 2; j++) {
 			String breadStringIdentifier = "001";
 			String appleStringIdentifier = "002";
 			String cerealStringIdentifier = "003";
@@ -44,7 +46,13 @@ public class View {
 			ItemIdentifier notRespItemID = new ItemIdentifier(notRespStrinIdentifier);
 			double paidValue = 1000;
 			Amount paidAmount = new Amount(paidValue);
+			
+			String customerName = "Bob";
+			int customerYearOfBirth = 1994;
+			CustomerIdentificationDTO customerID = new CustomerIdentificationDTO(customerName, customerYearOfBirth);
+			
 			contrl.startSale();
+			System.out.println("----------------------------------------UserInterface----------------------------------------");
 			System.out.println("New sale has started!");
 			System.out.println("\nItems are being scanned in\n");
 
@@ -70,10 +78,15 @@ public class View {
 				logHandler.LogException(exp);
 			}
 
+			System.out.println("The total price of the bought items");
 			System.out.println(contrl.endSale());
+			
+			System.out.println("The total price of the bought items after discount");
+			System.out.println(contrl.CheckForDiscounts(customerID));
 
-			System.out.println("\nThe contents of the receipt:\n\n");
+			
 			contrl.processCashPayment(paidAmount);
+			}
 		} catch (InvalidItemIdentifierException exp) {
 			errorMessageHandler.displayErrorMessage(
 					"'" + exp.getInvalidItemIdentifier().toString() + "' is and invalid item identifier");

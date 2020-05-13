@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import se.kth.iv1350.processSale.controller.UnsuccessfulOperationException;
-import se.kth.iv1350.processSale.integration.InventorySystemNotRespondingException;
+import se.kth.iv1350.processSale.integration.ItemRegistrationException;
 
 class LogHandlerTest {
 	private ByteArrayOutputStream outContent;
@@ -33,7 +33,7 @@ class LogHandlerTest {
 	public void testLogException() {
 		LogHandler lHandler = new LogHandler();
 		lHandler.LogException(new UnsuccessfulOperationException("The given task couldn´t be carried out.", 
-																	new InventorySystemNotRespondingException(
+																	new ItemRegistrationException(
 																			"The Inventory System is´t responding.")));
 		String errorMessageString = "The given task couldn´t be carried out.";
 		StringBuilder builder = new StringBuilder();

@@ -6,9 +6,9 @@ import java.util.List;
 
 import se.kth.iv1350.processSale.integration.ItemDTO;
 import se.kth.iv1350.processSale.util.Amount;
+import se.kth.iv1350.processSale.integration.Discount.Discount;
 
 /**
- * 
  * Is used to keep track of items being bought and information regarding the
  * transaction.
  * 
@@ -18,6 +18,7 @@ public class Sale {
 	private String storeName;
 	private String storeAddress;
 	private List<Item> items = new ArrayList<>();
+	private List<Discount> discounts = new ArrayList<>();
 
 	/**
 	 * Creates a new instance of a sale which sets the time and date.
@@ -61,6 +62,14 @@ public class Sale {
 	}
 	
 	/**
+	 * Returns the discounts.
+	 * @return	The discounts.
+	 */
+	public List<Discount> getDiscounts(){
+		return discounts;
+	}
+	
+	/**
 	 * Adds an <code>item</code>, increases the quantity of an <code>item</code> to
 	 * the {@link Sale}. 
 	 * 
@@ -79,19 +88,49 @@ public class Sale {
 	}
 	
 	/**
-	 * Calculates the final price of the sale.
+	 * Adds a <code>discount<code>.
+	 * @param discount
+	 */
+	public void addDiscount(Discount discount) {
+		discounts.add(discount);
+	}
+	
+	/**
+	 * adds a list of <code>discount<code>.
+	 * @param discounts
+	 */
+	public void addDiscounts(List<Discount> discounts) {
+		this.discounts.addAll(discounts);
+	}
+	
+	/**
+	 * Calculates the final price of the sale, including vat and discount.
 	 * 
 	 * @return the total <code>amount</code> of the <code>Item</code> including Vat rate.
 	 */
 	public Amount CalculateFinalPrice() {
-		Amount totalPrice = new Amount();
-		if (!items.isEmpty()) {
-			for (Item currentItem : items) {
-				totalPrice = totalPrice.add(currentItem.totalItemPrice());
-				totalPrice = totalPrice.add(currentItem.totalItemVatPrice());
-			}
-		}
+		Amount totalPrice = calculateTotalItemPrice();
+		if(!discounts.isEmpty())
+			for(Discount discount: discounts)
+				totalPrice = totalPrice.subtract(discount.calculateDicount(this));
 		return totalPrice;
 	}
 	
+	
+	/**
+	 * Only calculates the total price of the items including vat.
+	 * 
+	 * @return	
+	 */
+	public Amount calculateTotalItemPrice() {
+		Amount totalItemPrice = new Amount();
+		if (!items.isEmpty()) {
+			for (Item currentItem : items) {
+				totalItemPrice = totalItemPrice.add(currentItem.totalItemPrice());
+				totalItemPrice = totalItemPrice.add(currentItem.totalItemVatPrice());
+			}
+		}
+		return totalItemPrice;
+	}
+
 }

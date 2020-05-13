@@ -93,7 +93,7 @@ class InventorySystemHandlerTest {
 		try {
 			ISHandler.findItem(notRespIdentifier);
 			fail("The correct exception was not called.");
-		}catch(InventorySystemNotRespondingException exp){
+		}catch(ItemRegistrationException exp){
 			assertTrue(exp.getMessage().equals("The Inventory System is´t responding."));
 		}
 	}

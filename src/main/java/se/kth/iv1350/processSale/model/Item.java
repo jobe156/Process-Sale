@@ -18,7 +18,7 @@ public class Item {
 	 * 
 	 * @param itemDTO	Provides information about an item.
 	 */
-	Item(ItemDTO itemDTO) {
+	public Item(ItemDTO itemDTO) {
 		this.itemName = itemDTO.getItemName();
 		this.quantity = 1;
 		this.itemPrice = itemDTO.getItemPrice();
